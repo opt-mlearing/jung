@@ -17,131 +17,131 @@ import org.junit.Test;
 
 public class TestKeyElementParser extends AbstractParserTest {
 
-  @Test(expected = GraphIOException.class)
-  public void testNoId() throws Exception {
+    @Test(expected = GraphIOException.class)
+    public void testNoId() throws Exception {
 
-    String xml = "<key/>";
+        String xml = "<key/>";
 
-    readObject(xml);
-  }
+        readObject(xml);
+    }
 
-  @Test
-  public void testId() throws Exception {
+    @Test
+    public void testId() throws Exception {
 
-    String xml = "<key id=\"d1\"/>";
+        String xml = "<key id=\"d1\"/>";
 
-    Key key = (Key) readObject(xml);
-    Assert.assertNotNull(key);
-    Assert.assertEquals("d1", key.getId());
-    Assert.assertEquals(null, key.getDescription());
-    Assert.assertEquals(null, key.getDefaultValue());
-    Assert.assertEquals(null, key.getAttributeName());
-    Assert.assertEquals(null, key.getAttributeType());
-    Assert.assertEquals(Key.ForType.ALL, key.getForType());
-  }
+        Key key = (Key) readObject(xml);
+        Assert.assertNotNull(key);
+        Assert.assertEquals("d1", key.getId());
+        Assert.assertEquals(null, key.getDescription());
+        Assert.assertEquals(null, key.getDefaultValue());
+        Assert.assertEquals(null, key.getAttributeName());
+        Assert.assertEquals(null, key.getAttributeType());
+        Assert.assertEquals(Key.ForType.ALL, key.getForType());
+    }
 
-  @Test
-  public void testDesc() throws Exception {
+    @Test
+    public void testDesc() throws Exception {
 
-    String xml = "<key id=\"d1\">" + "<desc>this is my key</desc>" + "</key>";
+        String xml = "<key id=\"d1\">" + "<desc>this is my key</desc>" + "</key>";
 
-    Key key = (Key) readObject(xml);
-    Assert.assertNotNull(key);
-    Assert.assertEquals("d1", key.getId());
-    Assert.assertEquals("this is my key", key.getDescription());
-    Assert.assertEquals(null, key.getDefaultValue());
-    Assert.assertEquals(null, key.getAttributeName());
-    Assert.assertEquals(null, key.getAttributeType());
-    Assert.assertEquals(Key.ForType.ALL, key.getForType());
-  }
+        Key key = (Key) readObject(xml);
+        Assert.assertNotNull(key);
+        Assert.assertEquals("d1", key.getId());
+        Assert.assertEquals("this is my key", key.getDescription());
+        Assert.assertEquals(null, key.getDefaultValue());
+        Assert.assertEquals(null, key.getAttributeName());
+        Assert.assertEquals(null, key.getAttributeType());
+        Assert.assertEquals(Key.ForType.ALL, key.getForType());
+    }
 
-  @Test
-  public void testDefault() throws Exception {
+    @Test
+    public void testDefault() throws Exception {
 
-    String xml = "<key id=\"d1\">" + "<default>yellow</default>" + "</key>";
+        String xml = "<key id=\"d1\">" + "<default>yellow</default>" + "</key>";
 
-    Key key = (Key) readObject(xml);
-    Assert.assertNotNull(key);
-    Assert.assertEquals("d1", key.getId());
-    Assert.assertEquals(null, key.getDescription());
-    Assert.assertEquals("yellow", key.getDefaultValue());
-    Assert.assertEquals(null, key.getAttributeName());
-    Assert.assertEquals(null, key.getAttributeType());
-    Assert.assertEquals(Key.ForType.ALL, key.getForType());
-  }
+        Key key = (Key) readObject(xml);
+        Assert.assertNotNull(key);
+        Assert.assertEquals("d1", key.getId());
+        Assert.assertEquals(null, key.getDescription());
+        Assert.assertEquals("yellow", key.getDefaultValue());
+        Assert.assertEquals(null, key.getAttributeName());
+        Assert.assertEquals(null, key.getAttributeType());
+        Assert.assertEquals(Key.ForType.ALL, key.getForType());
+    }
 
-  @Test
-  public void testAttrNameType() throws Exception {
+    @Test
+    public void testAttrNameType() throws Exception {
 
-    String xml = "<key id=\"d1\" attr.name=\"myattr\" attr.type=\"double\">" + "</key>";
+        String xml = "<key id=\"d1\" attr.name=\"myattr\" attr.type=\"double\">" + "</key>";
 
-    Key key = (Key) readObject(xml);
-    Assert.assertNotNull(key);
-    Assert.assertEquals("d1", key.getId());
-    Assert.assertEquals(null, key.getDescription());
-    Assert.assertEquals(null, key.getDefaultValue());
-    Assert.assertEquals("myattr", key.getAttributeName());
-    Assert.assertEquals("double", key.getAttributeType());
-    Assert.assertEquals(Key.ForType.ALL, key.getForType());
-  }
+        Key key = (Key) readObject(xml);
+        Assert.assertNotNull(key);
+        Assert.assertEquals("d1", key.getId());
+        Assert.assertEquals(null, key.getDescription());
+        Assert.assertEquals(null, key.getDefaultValue());
+        Assert.assertEquals("myattr", key.getAttributeName());
+        Assert.assertEquals("double", key.getAttributeType());
+        Assert.assertEquals(Key.ForType.ALL, key.getForType());
+    }
 
-  @Test
-  public void testForNode() throws Exception {
+    @Test
+    public void testForNode() throws Exception {
 
-    String xml = "<key id=\"d1\" for=\"node\">" + "</key>";
+        String xml = "<key id=\"d1\" for=\"node\">" + "</key>";
 
-    Key key = (Key) readObject(xml);
-    Assert.assertNotNull(key);
-    Assert.assertEquals("d1", key.getId());
-    Assert.assertEquals(null, key.getDescription());
-    Assert.assertEquals(null, key.getDefaultValue());
-    Assert.assertEquals(null, key.getAttributeName());
-    Assert.assertEquals(null, key.getAttributeType());
-    Assert.assertEquals(Key.ForType.NODE, key.getForType());
-  }
+        Key key = (Key) readObject(xml);
+        Assert.assertNotNull(key);
+        Assert.assertEquals("d1", key.getId());
+        Assert.assertEquals(null, key.getDescription());
+        Assert.assertEquals(null, key.getDefaultValue());
+        Assert.assertEquals(null, key.getAttributeName());
+        Assert.assertEquals(null, key.getAttributeType());
+        Assert.assertEquals(Key.ForType.NODE, key.getForType());
+    }
 
-  @Test
-  public void testForEdge() throws Exception {
+    @Test
+    public void testForEdge() throws Exception {
 
-    String xml = "<key id=\"d1\" for=\"edge\">" + "</key>";
+        String xml = "<key id=\"d1\" for=\"edge\">" + "</key>";
 
-    Key key = (Key) readObject(xml);
-    Assert.assertNotNull(key);
-    Assert.assertEquals("d1", key.getId());
-    Assert.assertEquals(null, key.getDescription());
-    Assert.assertEquals(null, key.getDefaultValue());
-    Assert.assertEquals(null, key.getAttributeName());
-    Assert.assertEquals(null, key.getAttributeType());
-    Assert.assertEquals(Key.ForType.EDGE, key.getForType());
-  }
+        Key key = (Key) readObject(xml);
+        Assert.assertNotNull(key);
+        Assert.assertEquals("d1", key.getId());
+        Assert.assertEquals(null, key.getDescription());
+        Assert.assertEquals(null, key.getDefaultValue());
+        Assert.assertEquals(null, key.getAttributeName());
+        Assert.assertEquals(null, key.getAttributeType());
+        Assert.assertEquals(Key.ForType.EDGE, key.getForType());
+    }
 
-  @Test
-  public void testForGraph() throws Exception {
+    @Test
+    public void testForGraph() throws Exception {
 
-    String xml = "<key id=\"d1\" for=\"graph\">" + "</key>";
+        String xml = "<key id=\"d1\" for=\"graph\">" + "</key>";
 
-    Key key = (Key) readObject(xml);
-    Assert.assertNotNull(key);
-    Assert.assertEquals("d1", key.getId());
-    Assert.assertEquals(null, key.getDescription());
-    Assert.assertEquals(null, key.getDefaultValue());
-    Assert.assertEquals(null, key.getAttributeName());
-    Assert.assertEquals(null, key.getAttributeType());
-    Assert.assertEquals(Key.ForType.GRAPH, key.getForType());
-  }
+        Key key = (Key) readObject(xml);
+        Assert.assertNotNull(key);
+        Assert.assertEquals("d1", key.getId());
+        Assert.assertEquals(null, key.getDescription());
+        Assert.assertEquals(null, key.getDefaultValue());
+        Assert.assertEquals(null, key.getAttributeName());
+        Assert.assertEquals(null, key.getAttributeType());
+        Assert.assertEquals(Key.ForType.GRAPH, key.getForType());
+    }
 
-  @Test
-  public void testForAll() throws Exception {
+    @Test
+    public void testForAll() throws Exception {
 
-    String xml = "<key id=\"d1\" for=\"all\">" + "</key>";
+        String xml = "<key id=\"d1\" for=\"all\">" + "</key>";
 
-    Key key = (Key) readObject(xml);
-    Assert.assertNotNull(key);
-    Assert.assertEquals("d1", key.getId());
-    Assert.assertEquals(null, key.getDescription());
-    Assert.assertEquals(null, key.getDefaultValue());
-    Assert.assertEquals(null, key.getAttributeName());
-    Assert.assertEquals(null, key.getAttributeType());
-    Assert.assertEquals(Key.ForType.ALL, key.getForType());
-  }
+        Key key = (Key) readObject(xml);
+        Assert.assertNotNull(key);
+        Assert.assertEquals("d1", key.getId());
+        Assert.assertEquals(null, key.getDescription());
+        Assert.assertEquals(null, key.getDefaultValue());
+        Assert.assertEquals(null, key.getAttributeName());
+        Assert.assertEquals(null, key.getAttributeType());
+        Assert.assertEquals(Key.ForType.ALL, key.getForType());
+    }
 }

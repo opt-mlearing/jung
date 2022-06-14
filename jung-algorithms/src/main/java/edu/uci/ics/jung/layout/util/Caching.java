@@ -15,6 +15,8 @@ package edu.uci.ics.jung.layout.util;
  * @author Tom Nelson
  */
 public interface Caching {
-  /** clear cache */
-  void clear();
+    /**
+     * clear cache
+     */
+    void clear();
 }

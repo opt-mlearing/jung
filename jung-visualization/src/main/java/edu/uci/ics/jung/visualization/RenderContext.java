@@ -8,6 +8,7 @@ import edu.uci.ics.jung.visualization.renderers.NodeLabelRenderer;
 import edu.uci.ics.jung.visualization.transform.shape.GraphicsDecorator;
 import edu.uci.ics.jung.visualization.util.Context;
 import edu.uci.ics.jung.visualization.util.EdgeIndexFunction;
+
 import java.awt.BasicStroke;
 import java.awt.Font;
 import java.awt.Paint;
@@ -21,174 +22,180 @@ import javax.swing.JComponent;
 
 public interface RenderContext<N, E> {
 
-  float[] dotting = {1.0f, 3.0f};
-  float[] dashing = {5.0f};
+    float[] dotting = {1.0f, 3.0f};
+    float[] dashing = {5.0f};
 
-  /**
-   * A stroke for a dotted line: 1 pixel width, round caps, round joins, and an array of {1.0f,
-   * 3.0f}.
-   */
-  Stroke DOTTED =
-      new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1.0f, dotting, 0f);
+    /**
+     * A stroke for a dotted line: 1 pixel width, round caps, round joins, and an array of {1.0f,
+     * 3.0f}.
+     */
+    Stroke DOTTED =
+            new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1.0f, dotting, 0f);
 
-  /**
-   * A stroke for a dashed line: 1 pixel width, square caps, beveled joins, and an array of {5.0f}.
-   */
-  Stroke DASHED =
-      new BasicStroke(1.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL, 1.0f, dashing, 0f);
+    /**
+     * A stroke for a dashed line: 1 pixel width, square caps, beveled joins, and an array of {5.0f}.
+     */
+    Stroke DASHED =
+            new BasicStroke(1.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL, 1.0f, dashing, 0f);
 
-  /** Specifies the offset for the edge labels. */
-  int LABEL_OFFSET = 10;
+    /**
+     * Specifies the offset for the edge labels.
+     */
+    int LABEL_OFFSET = 10;
 
-  int getLabelOffset();
+    int getLabelOffset();
 
-  void setLabelOffset(int labelOffset);
+    void setLabelOffset(int labelOffset);
 
-  float getArrowPlacementTolerance();
+    float getArrowPlacementTolerance();
 
-  void setArrowPlacementTolerance(float arrow_placement_tolerance);
+    void setArrowPlacementTolerance(float arrow_placement_tolerance);
 
-  Shape getEdgeArrow();
+    Shape getEdgeArrow();
 
-  void setEdgeArrow(Shape shape);
+    void setEdgeArrow(Shape shape);
 
-  boolean renderEdgeArrow();
+    boolean renderEdgeArrow();
 
-  void setRenderEdgeArrow(boolean render);
+    void setRenderEdgeArrow(boolean render);
 
-  Function<? super E, Font> getEdgeFontFunction();
+    Function<? super E, Font> getEdgeFontFunction();
 
-  void setEdgeFontFunction(Function<? super E, Font> edgeFontFunction);
+    void setEdgeFontFunction(Function<? super E, Font> edgeFontFunction);
 
-  Predicate<E> getEdgeIncludePredicate();
+    Predicate<E> getEdgeIncludePredicate();
 
-  void setEdgeIncludePredicate(Predicate<E> edgeIncludePredicate);
+    void setEdgeIncludePredicate(Predicate<E> edgeIncludePredicate);
 
-  public float getEdgeLabelCloseness();
+    public float getEdgeLabelCloseness();
 
-  public void setEdgeLabelCloseness(float closeness);
+    public void setEdgeLabelCloseness(float closeness);
 
-  EdgeLabelRenderer getEdgeLabelRenderer();
+    EdgeLabelRenderer getEdgeLabelRenderer();
 
-  void setEdgeLabelRenderer(EdgeLabelRenderer edgeLabelRenderer);
+    void setEdgeLabelRenderer(EdgeLabelRenderer edgeLabelRenderer);
 
-  Function<? super E, Paint> getEdgeFillPaintFunction();
+    Function<? super E, Paint> getEdgeFillPaintFunction();
 
-  void setEdgeFillPaintFunction(Function<? super E, Paint> edgePaintFunction);
+    void setEdgeFillPaintFunction(Function<? super E, Paint> edgePaintFunction);
 
-  Function<? super E, Paint> getEdgeDrawPaintFunction();
+    Function<? super E, Paint> getEdgeDrawPaintFunction();
 
-  void setEdgeDrawPaintFunction(Function<? super E, Paint> edgeDrawPaintFunction);
+    void setEdgeDrawPaintFunction(Function<? super E, Paint> edgeDrawPaintFunction);
 
-  Function<? super E, Paint> getArrowDrawPaintFunction();
+    Function<? super E, Paint> getArrowDrawPaintFunction();
 
-  void setArrowDrawPaintFunction(Function<? super E, Paint> arrowDrawPaintFunction);
+    void setArrowDrawPaintFunction(Function<? super E, Paint> arrowDrawPaintFunction);
 
-  Function<? super E, Paint> getArrowFillPaintFunction();
+    Function<? super E, Paint> getArrowFillPaintFunction();
 
-  void setArrowFillPaintFunction(Function<? super E, Paint> arrowFillPaintFunction);
+    void setArrowFillPaintFunction(Function<? super E, Paint> arrowFillPaintFunction);
 
-  Function<Context<Network<N, E>, E>, Shape> getEdgeShapeFunction();
+    Function<Context<Network<N, E>, E>, Shape> getEdgeShapeFunction();
 
-  void setEdgeShapeFunction(Function<Context<Network<N, E>, E>, Shape> edgeShapeFunction);
+    void setEdgeShapeFunction(Function<Context<Network<N, E>, E>, Shape> edgeShapeFunction);
 
-  Function<? super E, String> getEdgeLabelFunction();
+    Function<? super E, String> getEdgeLabelFunction();
 
-  void setEdgeLabelFunction(Function<? super E, String> edgeStringer);
+    void setEdgeLabelFunction(Function<? super E, String> edgeStringer);
 
-  Function<? super E, Stroke> edgeStrokeFunction();
+    Function<? super E, Stroke> edgeStrokeFunction();
 
-  void setEdgeStrokeFunction(Function<? super E, Stroke> edgeStrokeFunction);
+    void setEdgeStrokeFunction(Function<? super E, Stroke> edgeStrokeFunction);
 
-  Function<? super E, Stroke> getEdgeArrowStrokeFunction();
+    Function<? super E, Stroke> getEdgeArrowStrokeFunction();
 
-  void setEdgeArrowStrokeFunction(Function<? super E, Stroke> edgeArrowStrokeFunction);
+    void setEdgeArrowStrokeFunction(Function<? super E, Stroke> edgeArrowStrokeFunction);
 
-  GraphicsDecorator getGraphicsContext();
+    GraphicsDecorator getGraphicsContext();
 
-  void setGraphicsContext(GraphicsDecorator graphicsContext);
+    void setGraphicsContext(GraphicsDecorator graphicsContext);
 
-  EdgeIndexFunction<N, E> getParallelEdgeIndexFunction();
+    EdgeIndexFunction<N, E> getParallelEdgeIndexFunction();
 
-  void setParallelEdgeIndexFunction(EdgeIndexFunction<N, E> parallelEdgeIndexFunction);
+    void setParallelEdgeIndexFunction(EdgeIndexFunction<N, E> parallelEdgeIndexFunction);
 
-  PickedState<E> getPickedEdgeState();
+    PickedState<E> getPickedEdgeState();
 
-  void setPickedEdgeState(PickedState<E> pickedEdgeState);
+    void setPickedEdgeState(PickedState<E> pickedEdgeState);
 
-  PickedState<N> getPickedNodeState();
+    PickedState<N> getPickedNodeState();
 
-  void setPickedNodeState(PickedState<N> pickedNodeState);
+    void setPickedNodeState(PickedState<N> pickedNodeState);
 
-  CellRendererPane getRendererPane();
+    CellRendererPane getRendererPane();
 
-  void setRendererPane(CellRendererPane rendererPane);
+    void setRendererPane(CellRendererPane rendererPane);
 
-  JComponent getScreenDevice();
+    JComponent getScreenDevice();
 
-  void setScreenDevice(JComponent screenDevice);
+    void setScreenDevice(JComponent screenDevice);
 
-  Function<? super N, Font> getNodeFontFunction();
+    Function<? super N, Font> getNodeFontFunction();
 
-  void setNodeFontFunction(Function<? super N, Font> nodeFontFunction);
+    void setNodeFontFunction(Function<? super N, Font> nodeFontFunction);
 
-  Function<N, Icon> getNodeIconFunction();
+    Function<N, Icon> getNodeIconFunction();
 
-  void setNodeIconFunction(Function<N, Icon> nodeIconFunction);
+    void setNodeIconFunction(Function<N, Icon> nodeIconFunction);
 
-  Predicate<N> getNodeIncludePredicate();
+    Predicate<N> getNodeIncludePredicate();
 
-  void setNodeIncludePredicate(Predicate<N> nodeIncludePredicate);
+    void setNodeIncludePredicate(Predicate<N> nodeIncludePredicate);
 
-  NodeLabelRenderer getNodeLabelRenderer();
+    NodeLabelRenderer getNodeLabelRenderer();
 
-  void setNodeLabelRenderer(NodeLabelRenderer nodeLabelRenderer);
+    void setNodeLabelRenderer(NodeLabelRenderer nodeLabelRenderer);
 
-  Function<? super N, Paint> getNodeFillPaintFunction();
+    Function<? super N, Paint> getNodeFillPaintFunction();
 
-  void setNodeFillPaintFunction(Function<? super N, Paint> nodeFillPaintFunction);
+    void setNodeFillPaintFunction(Function<? super N, Paint> nodeFillPaintFunction);
 
-  Function<? super N, Paint> getNodeDrawPaintFunction();
+    Function<? super N, Paint> getNodeDrawPaintFunction();
 
-  void setNodeDrawPaintFunction(Function<? super N, Paint> nodeDrawPaintFunction);
+    void setNodeDrawPaintFunction(Function<? super N, Paint> nodeDrawPaintFunction);
 
-  Function<? super N, Shape> getNodeShapeFunction();
+    Function<? super N, Shape> getNodeShapeFunction();
 
-  void setNodeShapeFunction(Function<? super N, Shape> nodeShapeFunction);
+    void setNodeShapeFunction(Function<? super N, Shape> nodeShapeFunction);
 
-  Function<? super N, String> getNodeLabelFunction();
+    Function<? super N, String> getNodeLabelFunction();
 
-  void setNodeLabelFunction(Function<? super N, String> nodeStringer);
+    void setNodeLabelFunction(Function<? super N, String> nodeStringer);
 
-  Function<? super N, Paint> getNodeLabelDrawPaintFunction();
+    Function<? super N, Paint> getNodeLabelDrawPaintFunction();
 
-  void setNodeLabelDrawPaintFunction(Function<? super N, Paint> nodeLabelDrawPaintFunction);
+    void setNodeLabelDrawPaintFunction(Function<? super N, Paint> nodeLabelDrawPaintFunction);
 
-  Function<? super N, Stroke> getNodeStrokeFunction();
+    Function<? super N, Stroke> getNodeStrokeFunction();
 
-  void setNodeStrokeFunction(Function<? super N, Stroke> nodeStrokeFunction);
+    void setNodeStrokeFunction(Function<? super N, Stroke> nodeStrokeFunction);
 
-  class DirectedEdgeArrowPredicate implements Predicate<Network<?, ?>> {
+    class DirectedEdgeArrowPredicate implements Predicate<Network<?, ?>> {
 
-    public boolean test(Network<?, ?> graph) {
-      return graph.isDirected();
+        public boolean test(Network<?, ?> graph) {
+            return graph.isDirected();
+        }
     }
-  }
 
-  class UndirectedEdgeArrowPredicate implements Predicate<Network<?, ?>> {
+    class UndirectedEdgeArrowPredicate implements Predicate<Network<?, ?>> {
 
-    public boolean test(Network<?, ?> graph) {
-      return !graph.isDirected();
+        public boolean test(Network<?, ?> graph) {
+            return !graph.isDirected();
+        }
     }
-  }
 
-  MultiLayerTransformer getMultiLayerTransformer();
+    MultiLayerTransformer getMultiLayerTransformer();
 
-  void setMultiLayerTransformer(MultiLayerTransformer basicTransformer);
+    void setMultiLayerTransformer(MultiLayerTransformer basicTransformer);
 
-  /** @return the pickSupport */
-  NetworkElementAccessor<N, E> getPickSupport();
+    /**
+     * @return the pickSupport
+     */
+    NetworkElementAccessor<N, E> getPickSupport();
 
-  /** @param pickSupport the pickSupport to set */
-  void setPickSupport(NetworkElementAccessor<N, E> pickSupport);
+    /**
+     * @param pickSupport the pickSupport to set
+     */
+    void setPickSupport(NetworkElementAccessor<N, E> pickSupport);
 }

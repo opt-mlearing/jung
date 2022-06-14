@@ -14,6 +14,7 @@ package edu.uci.ics.jung.visualization.control;
 import edu.uci.ics.jung.visualization.MultiLayerTransformer.Layer;
 import edu.uci.ics.jung.visualization.VisualizationServer;
 import edu.uci.ics.jung.visualization.transform.MutableTransformer;
+
 import java.awt.geom.Point2D;
 
 /**
@@ -25,14 +26,16 @@ import java.awt.geom.Point2D;
  */
 public class LayoutScalingControl implements ScalingControl {
 
-  /** zoom the display in or out, depending on the direction of the mouse wheel motion. */
-  public void scale(VisualizationServer<?, ?> vv, float amount, Point2D from) {
+    /**
+     * zoom the display in or out, depending on the direction of the mouse wheel motion.
+     */
+    public void scale(VisualizationServer<?, ?> vv, float amount, Point2D from) {
 
-    Point2D ivtfrom =
-        vv.getRenderContext().getMultiLayerTransformer().inverseTransform(Layer.VIEW, from);
-    MutableTransformer modelTransformer =
-        vv.getRenderContext().getMultiLayerTransformer().getTransformer(Layer.LAYOUT);
-    modelTransformer.scale(amount, amount, ivtfrom);
-    vv.repaint();
-  }
+        Point2D ivtfrom =
+                vv.getRenderContext().getMultiLayerTransformer().inverseTransform(Layer.VIEW, from);
+        MutableTransformer modelTransformer =
+                vv.getRenderContext().getMultiLayerTransformer().getTransformer(Layer.LAYOUT);
+        modelTransformer.scale(amount, amount, ivtfrom);
+        vv.repaint();
+    }
 }

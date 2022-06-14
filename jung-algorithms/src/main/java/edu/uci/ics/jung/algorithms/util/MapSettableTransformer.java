@@ -20,22 +20,22 @@ import java.util.Map;
  * @author Joshua O'Madadhain
  */
 public class MapSettableTransformer<I, O> implements SettableTransformer<I, O> {
-  protected Map<I, O> map;
+    protected Map<I, O> map;
 
-  /**
-   * Creates an instance based on <code>m</code>.
-   *
-   * @param m the map on which this instance is based
-   */
-  public MapSettableTransformer(Map<I, O> m) {
-    this.map = m;
-  }
+    /**
+     * Creates an instance based on <code>m</code>.
+     *
+     * @param m the map on which this instance is based
+     */
+    public MapSettableTransformer(Map<I, O> m) {
+        this.map = m;
+    }
 
-  public O apply(I input) {
-    return map.get(input);
-  }
+    public O apply(I input) {
+        return map.get(input);
+    }
 
-  public void set(I input, O output) {
-    map.put(input, output);
-  }
+    public void set(I input, O output) {
+        map.put(input, output);
+    }
 }

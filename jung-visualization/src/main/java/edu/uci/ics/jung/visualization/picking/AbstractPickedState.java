@@ -21,22 +21,22 @@ import javax.swing.event.EventListenerList;
  */
 public abstract class AbstractPickedState<T> implements PickedState<T> {
 
-  protected EventListenerList listenerList = new EventListenerList();
+    protected EventListenerList listenerList = new EventListenerList();
 
-  public void addItemListener(ItemListener l) {
-    listenerList.add(ItemListener.class, l);
-  }
-
-  public void removeItemListener(ItemListener l) {
-    listenerList.remove(ItemListener.class, l);
-  }
-
-  protected void fireItemStateChanged(ItemEvent e) {
-    Object[] listeners = listenerList.getListenerList();
-    for (int i = listeners.length - 2; i >= 0; i -= 2) {
-      if (listeners[i] == ItemListener.class) {
-        ((ItemListener) listeners[i + 1]).itemStateChanged(e);
-      }
+    public void addItemListener(ItemListener l) {
+        listenerList.add(ItemListener.class, l);
     }
-  }
+
+    public void removeItemListener(ItemListener l) {
+        listenerList.remove(ItemListener.class, l);
+    }
+
+    protected void fireItemStateChanged(ItemEvent e) {
+        Object[] listeners = listenerList.getListenerList();
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            if (listeners[i] == ItemListener.class) {
+                ((ItemListener) listeners[i + 1]).itemStateChanged(e);
+            }
+        }
+    }
 }

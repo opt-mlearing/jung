@@ -11,6 +11,7 @@
 package edu.uci.ics.jung.io.graphml;
 
 import edu.uci.ics.jung.io.GraphIOException;
+
 import javax.xml.stream.XMLStreamException;
 
 /**
@@ -22,30 +23,30 @@ import javax.xml.stream.XMLStreamException;
  */
 public class ExceptionConverter {
 
-  /**
-   * Converts an exception to the a GraphIOException. Runtime exceptions are checked for the cause.
-   * If the cause is an XMLStreamException, it is converted to a GraphReaderException. Otherwise,
-   * the RuntimeException is rethrown.
-   *
-   * @param e the exception to be converted
-   * @throws GraphIOException the converted exception
-   */
-  public static void convert(Exception e) throws GraphIOException {
+    /**
+     * Converts an exception to the a GraphIOException. Runtime exceptions are checked for the cause.
+     * If the cause is an XMLStreamException, it is converted to a GraphReaderException. Otherwise,
+     * the RuntimeException is rethrown.
+     *
+     * @param e the exception to be converted
+     * @throws GraphIOException the converted exception
+     */
+    public static void convert(Exception e) throws GraphIOException {
 
-    if (e instanceof GraphIOException) {
-      throw (GraphIOException) e;
+        if (e instanceof GraphIOException) {
+            throw (GraphIOException) e;
+        }
+
+        if (e instanceof RuntimeException) {
+
+            // If the cause was an XMLStreamException, throw a GraphReaderException
+            if (e.getCause() instanceof XMLStreamException) {
+                throw new GraphIOException(e.getCause());
+            }
+
+            throw (RuntimeException) e;
+        }
+
+        throw new GraphIOException(e);
     }
-
-    if (e instanceof RuntimeException) {
-
-      // If the cause was an XMLStreamException, throw a GraphReaderException
-      if (e.getCause() instanceof XMLStreamException) {
-        throw new GraphIOException(e.getCause());
-      }
-
-      throw (RuntimeException) e;
-    }
-
-    throw new GraphIOException(e);
-  }
 }

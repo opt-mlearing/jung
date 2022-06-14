@@ -20,6 +20,7 @@ import edu.uci.ics.jung.layout.model.Point;
 import edu.uci.ics.jung.visualization.MultiLayerTransformer.Layer;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.transform.BidirectionalTransformer;
+
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Paint;
@@ -35,64 +36,64 @@ import java.util.function.Function;
  * @author Joshua O'Madadhain
  */
 public class GradientEdgePaintFunction<N, E> implements Function<E, Paint> {
-  protected Color c1;
-  protected Color c2;
-  protected Network<N, E> graph;
-  protected LayoutModel<N> layoutModel;
-  protected BidirectionalTransformer transformer;
+    protected Color c1;
+    protected Color c2;
+    protected Network<N, E> graph;
+    protected LayoutModel<N> layoutModel;
+    protected BidirectionalTransformer transformer;
 
-  public GradientEdgePaintFunction(Color c1, Color c2, VisualizationViewer<N, E> vv) {
-    this.c1 = c1;
-    this.c2 = c2;
-    this.graph = vv.getModel().getNetwork();
-    this.layoutModel = vv.getModel().getLayoutModel();
-    this.transformer =
-        vv.getRenderContext().getMultiLayerTransformer().getTransformer(Layer.LAYOUT);
-  }
-
-  public Paint apply(E e) {
-    EndpointPair<N> endpoints = graph.incidentNodes(e);
-    N b = endpoints.nodeU();
-    N f = endpoints.nodeV();
-    Point pb = layoutModel.apply(b);
-    Point pf = layoutModel.apply(f);
-    Point2D p2db = transformer.transform(pb.x, pb.y);
-    Point2D p2df = transformer.transform(pf.x, pf.y);
-    float xB = (float) p2db.getX();
-    float yB = (float) p2db.getY();
-    float xF = (float) p2df.getX();
-    float yF = (float) p2df.getY();
-    if (!graph.isDirected()) {
-      xF = (xF + xB) / 2;
-      yF = (yF + yB) / 2;
-    }
-    if (isSelfLoop(endpoints)) {
-      yF += 50;
-      xF += 50;
+    public GradientEdgePaintFunction(Color c1, Color c2, VisualizationViewer<N, E> vv) {
+        this.c1 = c1;
+        this.c2 = c2;
+        this.graph = vv.getModel().getNetwork();
+        this.layoutModel = vv.getModel().getLayoutModel();
+        this.transformer =
+                vv.getRenderContext().getMultiLayerTransformer().getTransformer(Layer.LAYOUT);
     }
 
-    return new GradientPaint(xB, yB, getColor1(e), xF, yF, getColor2(e), true);
-  }
+    public Paint apply(E e) {
+        EndpointPair<N> endpoints = graph.incidentNodes(e);
+        N b = endpoints.nodeU();
+        N f = endpoints.nodeV();
+        Point pb = layoutModel.apply(b);
+        Point pf = layoutModel.apply(f);
+        Point2D p2db = transformer.transform(pb.x, pb.y);
+        Point2D p2df = transformer.transform(pf.x, pf.y);
+        float xB = (float) p2db.getX();
+        float yB = (float) p2db.getY();
+        float xF = (float) p2df.getX();
+        float yF = (float) p2df.getY();
+        if (!graph.isDirected()) {
+            xF = (xF + xB) / 2;
+            yF = (yF + yB) / 2;
+        }
+        if (isSelfLoop(endpoints)) {
+            yF += 50;
+            xF += 50;
+        }
 
-  /**
-   * Returns <code>c1</code>. Subclasses may override this method to enable more complex behavior
-   * (e.g., for picked edges).
-   *
-   * @param e the edge for which a color is to be retrieved
-   * @return the constructor-supplied color {@code c1}
-   */
-  protected Color getColor1(E e) {
-    return c1;
-  }
+        return new GradientPaint(xB, yB, getColor1(e), xF, yF, getColor2(e), true);
+    }
 
-  /**
-   * Returns <code>c2</code>. Subclasses may override this method to enable more complex behavior
-   * (e.g., for picked edges).
-   *
-   * @param e the edge for which a color is to be retrieved
-   * @return the constructor-supplied color {@code c2}
-   */
-  protected Color getColor2(E e) {
-    return c2;
-  }
+    /**
+     * Returns <code>c1</code>. Subclasses may override this method to enable more complex behavior
+     * (e.g., for picked edges).
+     *
+     * @param e the edge for which a color is to be retrieved
+     * @return the constructor-supplied color {@code c1}
+     */
+    protected Color getColor1(E e) {
+        return c1;
+    }
+
+    /**
+     * Returns <code>c2</code>. Subclasses may override this method to enable more complex behavior
+     * (e.g., for picked edges).
+     *
+     * @param e the edge for which a color is to be retrieved
+     * @return the constructor-supplied color {@code c2}
+     */
+    protected Color getColor2(E e) {
+        return c2;
+    }
 }

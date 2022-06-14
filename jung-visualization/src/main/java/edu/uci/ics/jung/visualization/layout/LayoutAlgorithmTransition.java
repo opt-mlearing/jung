@@ -17,23 +17,23 @@ import org.slf4j.LoggerFactory;
  */
 public class LayoutAlgorithmTransition<N, E> {
 
-  private static Logger log = LoggerFactory.getLogger(LayoutAlgorithmTransition.class);
+    private static Logger log = LoggerFactory.getLogger(LayoutAlgorithmTransition.class);
 
-  public static <N, E> void animate(
-      VisualizationServer<N, E> visualizationServer, LayoutAlgorithm<N> endLayoutAlgorithm) {
-    fireLayoutStateChanged(visualizationServer.getModel().getLayoutModel(), true);
-    LayoutAlgorithm<N> transitionLayoutAlgorithm =
-        new AnimationLayoutAlgorithm<>(visualizationServer, endLayoutAlgorithm);
-    visualizationServer.getModel().setLayoutAlgorithm(transitionLayoutAlgorithm);
-  }
+    public static <N, E> void animate(
+            VisualizationServer<N, E> visualizationServer, LayoutAlgorithm<N> endLayoutAlgorithm) {
+        fireLayoutStateChanged(visualizationServer.getModel().getLayoutModel(), true);
+        LayoutAlgorithm<N> transitionLayoutAlgorithm =
+                new AnimationLayoutAlgorithm<>(visualizationServer, endLayoutAlgorithm);
+        visualizationServer.getModel().setLayoutAlgorithm(transitionLayoutAlgorithm);
+    }
 
-  public static <N, E> void apply(
-      VisualizationServer<N, E> visualizationServer, LayoutAlgorithm<N> endLayoutAlgorithm) {
-    visualizationServer.getModel().setLayoutAlgorithm(endLayoutAlgorithm);
-  }
+    public static <N, E> void apply(
+            VisualizationServer<N, E> visualizationServer, LayoutAlgorithm<N> endLayoutAlgorithm) {
+        visualizationServer.getModel().setLayoutAlgorithm(endLayoutAlgorithm);
+    }
 
-  private static void fireLayoutStateChanged(LayoutModel layoutModel, boolean state) {
-    log.trace("fireLayoutStateChanged to {}", state);
-    layoutModel.getLayoutStateChangeSupport().fireLayoutStateChanged(layoutModel, state);
-  }
+    private static void fireLayoutStateChanged(LayoutModel layoutModel, boolean state) {
+        log.trace("fireLayoutStateChanged to {}", state);
+        layoutModel.getLayoutStateChangeSupport().fireLayoutStateChanged(layoutModel, state);
+    }
 }

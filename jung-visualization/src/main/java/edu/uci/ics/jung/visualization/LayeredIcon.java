@@ -18,28 +18,28 @@ import javax.swing.ImageIcon;
 @SuppressWarnings("serial")
 public class LayeredIcon extends ImageIcon {
 
-  Set<Icon> iconSet = new LinkedHashSet<Icon>();
+    Set<Icon> iconSet = new LinkedHashSet<Icon>();
 
-  public LayeredIcon(Image image) {
-    super(image);
-  }
-
-  public void paintIcon(Component c, Graphics g, int x, int y) {
-    super.paintIcon(c, g, x, y);
-    Dimension d = new Dimension(getIconWidth(), getIconHeight());
-    for (Icon icon : iconSet) {
-      Dimension id = new Dimension(icon.getIconWidth(), icon.getIconHeight());
-      int dx = (d.width - id.width) / 2;
-      int dy = (d.height - id.height) / 2;
-      icon.paintIcon(c, g, x + dx, y + dy);
+    public LayeredIcon(Image image) {
+        super(image);
     }
-  }
 
-  public void add(Icon icon) {
-    iconSet.add(icon);
-  }
+    public void paintIcon(Component c, Graphics g, int x, int y) {
+        super.paintIcon(c, g, x, y);
+        Dimension d = new Dimension(getIconWidth(), getIconHeight());
+        for (Icon icon : iconSet) {
+            Dimension id = new Dimension(icon.getIconWidth(), icon.getIconHeight());
+            int dx = (d.width - id.width) / 2;
+            int dy = (d.height - id.height) / 2;
+            icon.paintIcon(c, g, x + dx, y + dy);
+        }
+    }
 
-  public boolean remove(Icon icon) {
-    return iconSet.remove(icon);
-  }
+    public void add(Icon icon) {
+        iconSet.add(icon);
+    }
+
+    public boolean remove(Icon icon) {
+        return iconSet.remove(icon);
+    }
 }

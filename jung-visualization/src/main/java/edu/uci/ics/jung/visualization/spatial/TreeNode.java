@@ -5,7 +5,7 @@ import java.util.Collection;
 
 public interface TreeNode {
 
-  Rectangle2D getBounds();
+    Rectangle2D getBounds();
 
-  Collection<? extends TreeNode> getChildren();
+    Collection<? extends TreeNode> getChildren();
 }

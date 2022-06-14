@@ -7,7 +7,7 @@ package edu.uci.ics.jung.layout.util;
  */
 public interface LayoutChangeListener<N> {
 
-  void layoutChanged(LayoutEvent<N> evt);
+    void layoutChanged(LayoutEvent<N> evt);
 
-  void layoutChanged(LayoutNetworkEvent<N> evt);
+    void layoutChanged(LayoutNetworkEvent<N> evt);
 }

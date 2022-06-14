@@ -10,6 +10,7 @@
 package edu.uci.ics.jung.algorithms.cluster;
 
 import com.google.common.graph.Network;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -30,41 +31,41 @@ import java.util.function.Function;
  * @author Scott White
  */
 public class WeakComponentClusterer<N, E> implements Function<Network<N, E>, Set<Set<N>>> {
-  /**
-   * Extracts the weak components from a graph.
-   *
-   * @param graph the graph whose weak components are to be extracted
-   * @return the list of weak components
-   */
-  public Set<Set<N>> apply(Network<N, E> graph) {
+    /**
+     * Extracts the weak components from a graph.
+     *
+     * @param graph the graph whose weak components are to be extracted
+     * @return the list of weak components
+     */
+    public Set<Set<N>> apply(Network<N, E> graph) {
 
-    Set<Set<N>> clusterSet = new HashSet<Set<N>>();
+        Set<Set<N>> clusterSet = new HashSet<Set<N>>();
 
-    HashSet<N> unvisitedNodes = new HashSet<N>(graph.nodes());
+        HashSet<N> unvisitedNodes = new HashSet<N>(graph.nodes());
 
-    while (!unvisitedNodes.isEmpty()) {
-      Set<N> cluster = new HashSet<N>();
-      N root = unvisitedNodes.iterator().next();
-      unvisitedNodes.remove(root);
-      cluster.add(root);
+        while (!unvisitedNodes.isEmpty()) {
+            Set<N> cluster = new HashSet<N>();
+            N root = unvisitedNodes.iterator().next();
+            unvisitedNodes.remove(root);
+            cluster.add(root);
 
-      Queue<N> queue = new LinkedList<N>();
-      queue.add(root);
+            Queue<N> queue = new LinkedList<N>();
+            queue.add(root);
 
-      while (!queue.isEmpty()) {
-        N currentNode = queue.remove();
-        Collection<N> neighbors = graph.adjacentNodes(currentNode);
+            while (!queue.isEmpty()) {
+                N currentNode = queue.remove();
+                Collection<N> neighbors = graph.adjacentNodes(currentNode);
 
-        for (N neighbor : neighbors) {
-          if (unvisitedNodes.contains(neighbor)) {
-            queue.add(neighbor);
-            unvisitedNodes.remove(neighbor);
-            cluster.add(neighbor);
-          }
+                for (N neighbor : neighbors) {
+                    if (unvisitedNodes.contains(neighbor)) {
+                        queue.add(neighbor);
+                        unvisitedNodes.remove(neighbor);
+                        cluster.add(neighbor);
+                    }
+                }
+            }
+            clusterSet.add(cluster);
         }
-      }
-      clusterSet.add(cluster);
+        return clusterSet;
     }
-    return clusterSet;
-  }
 }

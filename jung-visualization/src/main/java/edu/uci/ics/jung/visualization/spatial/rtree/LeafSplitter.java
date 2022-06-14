@@ -12,6 +12,6 @@ import java.util.Map;
  */
 public interface LeafSplitter<T> {
 
-  Pair<LeafNode<T>> split(
-      Collection<Map.Entry<T, Rectangle2D>> entries, Map.Entry<T, Rectangle2D> newEntry);
+    Pair<LeafNode<T>> split(
+            Collection<Map.Entry<T, Rectangle2D>> entries, Map.Entry<T, Rectangle2D> newEntry);
 }

@@ -18,6 +18,7 @@ import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
 import com.google.common.graph.MutableValueGraph;
 import com.google.common.graph.ValueGraphBuilder;
+
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -42,85 +43,85 @@ import java.util.Set;
 // * hyperedges -> nodes, (a,b) exists in new graph if a and b share a node
 public class FoldingTransformer<N, E> {
 
-  /**
-   * Converts <code>g</code> into a unipartite graph whose node set is the nodes of <code>g
-   * </code>'s partition <code>p</code>. For nodes <code>a</code> and <code>b</code> in this
-   * partition, the resultant graph will include the edge <code>(a,b)</code> if the original graph
-   * contains edges <code>(a,c)</code> and <code>(c,b)</code> for at least one node <code>c</code> .
-   *
-   * <p>The nodes of the new graph are the same as the nodes of the appropriate partition in the old
-   * graph.
-   *
-   * <p>This function will not create self-loops.
-   *
-   * @param <N> node type
-   * @param <E> input edge type
-   * @param g input graph
-   * @param nodes input node set
-   */
-  // TODO: consider providing ValueGraph/Network versions of this
-  // TODO: consider renaming this
-  public static <N> MutableGraph<N> foldToGraph(Graph<N> g, Set<N> nodes) {
-    Preconditions.checkArgument(
-        g.nodes().containsAll(nodes), "Input graph must contain all specified nodes");
-    MutableGraph<N> newGraph = GraphBuilder.from(g).expectedNodeCount(nodes.size()).build();
+    /**
+     * Converts <code>g</code> into a unipartite graph whose node set is the nodes of <code>g
+     * </code>'s partition <code>p</code>. For nodes <code>a</code> and <code>b</code> in this
+     * partition, the resultant graph will include the edge <code>(a,b)</code> if the original graph
+     * contains edges <code>(a,c)</code> and <code>(c,b)</code> for at least one node <code>c</code> .
+     *
+     * <p>The nodes of the new graph are the same as the nodes of the appropriate partition in the old
+     * graph.
+     *
+     * <p>This function will not create self-loops.
+     *
+     * @param <N>   node type
+     * @param <E>   input edge type
+     * @param g     input graph
+     * @param nodes input node set
+     */
+    // TODO: consider providing ValueGraph/Network versions of this
+    // TODO: consider renaming this
+    public static <N> MutableGraph<N> foldToGraph(Graph<N> g, Set<N> nodes) {
+        Preconditions.checkArgument(
+                g.nodes().containsAll(nodes), "Input graph must contain all specified nodes");
+        MutableGraph<N> newGraph = GraphBuilder.from(g).expectedNodeCount(nodes.size()).build();
 
-    for (N node : nodes) {
-      for (N s : g.successors(node)) {
-        for (N t : g.successors(s)) {
-          if (!nodes.contains(t) || t.equals(node)) {
-            continue;
-          }
-          newGraph.putEdge(node, t);
+        for (N node : nodes) {
+            for (N s : g.successors(node)) {
+                for (N t : g.successors(s)) {
+                    if (!nodes.contains(t) || t.equals(node)) {
+                        continue;
+                    }
+                    newGraph.putEdge(node, t);
+                }
+            }
         }
-      }
+        return newGraph;
     }
-    return newGraph;
-  }
 
-  /**
-   * Converts <code>g</code> into a unipartite graph whose node set is the nodes of <code>g
-   * </code>'s partition <code>p</code>. For nodes <code>a</code> and <code>b</code> in this
-   * partition, the resultant graph will include the edge <code>(a,b)</code> if the original graph
-   * contains edges <code>(a,c)</code> and <code>(c,b)</code> for at least one node <code>c</code> .
-   *
-   * <p>The nodes of the new graph are the same as the nodes of the appropriate partition in the
-   * input graph. The edge values are the sets of nodes that connected the edge's endpoints in the
-   * input graph.
-   *
-   * <p>This function will not create self-loops.
-   *
-   * @param <N> node type
-   * @param <E> input edge type
-   * @param g input graph
-   * @param nodes input node set
-   */
-  // TODO: consider providing ValueGraph/Network versions of this
-  // TODO: consider renaming this
-  public static <N> MutableValueGraph<N, Set<N>> foldToValueGraph(Graph<N> g, Set<N> nodes) {
-    Preconditions.checkArgument(
-        g.nodes().containsAll(nodes), "Input graph must contain all specified nodes");
-    ValueGraphBuilder<Object, Object> builder =
-        g.isDirected() ? ValueGraphBuilder.directed() : ValueGraphBuilder.undirected();
-    MutableValueGraph<N, Set<N>> newGraph =
-        builder.expectedNodeCount(nodes.size()).nodeOrder(g.nodeOrder()).build();
+    /**
+     * Converts <code>g</code> into a unipartite graph whose node set is the nodes of <code>g
+     * </code>'s partition <code>p</code>. For nodes <code>a</code> and <code>b</code> in this
+     * partition, the resultant graph will include the edge <code>(a,b)</code> if the original graph
+     * contains edges <code>(a,c)</code> and <code>(c,b)</code> for at least one node <code>c</code> .
+     *
+     * <p>The nodes of the new graph are the same as the nodes of the appropriate partition in the
+     * input graph. The edge values are the sets of nodes that connected the edge's endpoints in the
+     * input graph.
+     *
+     * <p>This function will not create self-loops.
+     *
+     * @param <N>   node type
+     * @param <E>   input edge type
+     * @param g     input graph
+     * @param nodes input node set
+     */
+    // TODO: consider providing ValueGraph/Network versions of this
+    // TODO: consider renaming this
+    public static <N> MutableValueGraph<N, Set<N>> foldToValueGraph(Graph<N> g, Set<N> nodes) {
+        Preconditions.checkArgument(
+                g.nodes().containsAll(nodes), "Input graph must contain all specified nodes");
+        ValueGraphBuilder<Object, Object> builder =
+                g.isDirected() ? ValueGraphBuilder.directed() : ValueGraphBuilder.undirected();
+        MutableValueGraph<N, Set<N>> newGraph =
+                builder.expectedNodeCount(nodes.size()).nodeOrder(g.nodeOrder()).build();
 
-    for (N node : nodes) {
-      for (N s : g.successors(node)) {
-        for (N t : g.successors(s)) {
-          if (!nodes.contains(t) || t.equals(node)) {
-            continue;
-          }
-          // TODO: consider having the type of Set depend on
-          // the input graph's node order
-          Set<N> intermediateNodes = newGraph.edgeValueOrDefault(node, t, new LinkedHashSet<N>());
-          if (intermediateNodes.isEmpty()) {
-            newGraph.putEdgeValue(node, t, intermediateNodes);
-          }
-          intermediateNodes.add(s);
+        for (N node : nodes) {
+            for (N s : g.successors(node)) {
+                for (N t : g.successors(s)) {
+                    if (!nodes.contains(t) || t.equals(node)) {
+                        continue;
+                    }
+                    // TODO: consider having the type of Set depend on
+                    // the input graph's node order
+                    Set<N> intermediateNodes = newGraph.edgeValueOrDefault(node, t, new LinkedHashSet<N>());
+                    if (intermediateNodes.isEmpty()) {
+                        newGraph.putEdgeValue(node, t, intermediateNodes);
+                    }
+                    intermediateNodes.add(s);
+                }
+            }
         }
-      }
+        return newGraph;
     }
-    return newGraph;
-  }
 }

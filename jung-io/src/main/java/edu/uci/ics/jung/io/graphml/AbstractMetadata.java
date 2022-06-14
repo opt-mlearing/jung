@@ -20,21 +20,21 @@ import java.util.Map;
  */
 public abstract class AbstractMetadata implements Metadata {
 
-  private final Map<String, String> properties = new HashMap<String, String>();
+    private final Map<String, String> properties = new HashMap<String, String>();
 
-  public Map<String, String> getProperties() {
-    return properties;
-  }
+    public Map<String, String> getProperties() {
+        return properties;
+    }
 
-  public String getProperty(String key) {
-    return properties.get(key);
-  }
+    public String getProperty(String key) {
+        return properties.get(key);
+    }
 
-  public String setProperty(String key, String value) {
-    return properties.put(key, value);
-  }
+    public String setProperty(String key, String value) {
+        return properties.put(key, value);
+    }
 
-  public void addData(DataMetadata data) {
-    properties.put(data.getKey(), data.getValue());
-  }
+    public void addData(DataMetadata data) {
+        properties.put(data.getKey(), data.getValue());
+    }
 }

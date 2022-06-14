@@ -14,9 +14,11 @@ package edu.uci.ics.jung.visualization.decorators;
 import java.awt.Shape;
 import java.util.function.Function;
 
-/** @author Joshua O'Madadhain */
+/**
+ * @author Joshua O'Madadhain
+ */
 public interface SettableNodeShapeFunction<N> extends Function<N, Shape> {
-  public abstract void setSizeTransformer(Function<N, Integer> vsf);
+    public abstract void setSizeTransformer(Function<N, Integer> vsf);
 
-  public abstract void setAspectRatioTransformer(Function<N, Float> varf);
+    public abstract void setAspectRatioTransformer(Function<N, Float> varf);
 }

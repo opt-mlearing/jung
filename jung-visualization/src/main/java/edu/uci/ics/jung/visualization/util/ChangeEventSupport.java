@@ -19,22 +19,22 @@ import javax.swing.event.ChangeListener;
  */
 public interface ChangeEventSupport {
 
-  void addChangeListener(ChangeListener l);
+    void addChangeListener(ChangeListener l);
 
-  /**
-   * Removes a ChangeListener.
-   *
-   * @param l the listener to be removed
-   */
-  void removeChangeListener(ChangeListener l);
+    /**
+     * Removes a ChangeListener.
+     *
+     * @param l the listener to be removed
+     */
+    void removeChangeListener(ChangeListener l);
 
-  /**
-   * Returns an array of all the <code>ChangeListener</code>s added with addChangeListener().
-   *
-   * @return all of the <code>ChangeListener</code>s added or an empty array if no listeners have
-   *     been added
-   */
-  ChangeListener[] getChangeListeners();
+    /**
+     * Returns an array of all the <code>ChangeListener</code>s added with addChangeListener().
+     *
+     * @return all of the <code>ChangeListener</code>s added or an empty array if no listeners have
+     * been added
+     */
+    ChangeListener[] getChangeListeners();
 
-  void fireStateChanged();
+    void fireStateChanged();
 }

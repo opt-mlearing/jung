@@ -6,12 +6,12 @@ import junit.framework.TestCase;
 
 public class WeakComponentClustererTest extends TestCase {
 
-  Network<String, Number> graph = TestGraphs.getDemoGraph();
+    Network<String, Number> graph = TestGraphs.getDemoGraph();
 
-  public void testWeakComponent() {
-    WeakComponentClusterer<String, Number> clusterer = new WeakComponentClusterer<String, Number>();
-    //		Set<Set<String>> clusterSet =
-    clusterer.apply(graph);
-    //		System.err.println("set is "+clusterSet);
-  }
+    public void testWeakComponent() {
+        WeakComponentClusterer<String, Number> clusterer = new WeakComponentClusterer<String, Number>();
+        //		Set<Set<String>> clusterSet =
+        clusterer.apply(graph);
+        //		System.err.println("set is "+clusterSet);
+    }
 }

@@ -29,57 +29,57 @@ import org.slf4j.LoggerFactory;
  */
 public class FRLayoutsTimingTest {
 
-  private static final Logger log = LoggerFactory.getLogger(FRLayoutsTimingTest.class);
-  Graph<String> graph;
-  LayoutModel<String> layoutModel;
+    private static final Logger log = LoggerFactory.getLogger(FRLayoutsTimingTest.class);
+    Graph<String> graph;
+    LayoutModel<String> layoutModel;
 
-  /**
-   * this runs again before each test. Build a simple graph, build a custom layout model (see below)
-   * initialize the locations to be the same each time.
-   */
-  @Before
-  public void setup() {
-    graph = TestGraphs.getOneComponentGraph().asGraph();
-    layoutModel =
-        LoadingCacheLayoutModel.<String>builder().setGraph(graph).setSize(500, 500).build();
-    layoutModel.setInitializer(new RandomLocationTransformer<>(500, 500));
-  }
+    /**
+     * this runs again before each test. Build a simple graph, build a custom layout model (see below)
+     * initialize the locations to be the same each time.
+     */
+    @Before
+    public void setup() {
+        graph = TestGraphs.getOneComponentGraph().asGraph();
+        layoutModel =
+                LoadingCacheLayoutModel.<String>builder().setGraph(graph).setSize(500, 500).build();
+        layoutModel.setInitializer(new RandomLocationTransformer<>(500, 500));
+    }
 
-  @Test
-  public void testFRLayouts() {
-    FRLayoutAlgorithm layoutAlgorithmOne = new FRLayoutAlgorithm();
-    // using the same random seed each time for repeatable results from each test.
-    layoutAlgorithmOne.setRandomSeed(0);
-    doTest(layoutAlgorithmOne);
-  }
+    @Test
+    public void testFRLayouts() {
+        FRLayoutAlgorithm layoutAlgorithmOne = new FRLayoutAlgorithm();
+        // using the same random seed each time for repeatable results from each test.
+        layoutAlgorithmOne.setRandomSeed(0);
+        doTest(layoutAlgorithmOne);
+    }
 
-  @Test
-  public void testFRBH() {
-    FRBHIteratorLayoutAlgorithm layoutAlgorithmTwo = new FRBHIteratorLayoutAlgorithm();
-    // using the same random seed each time for repeatable results from each test.
-    layoutAlgorithmTwo.setRandomSeed(0);
-    doTest(layoutAlgorithmTwo);
-  }
+    @Test
+    public void testFRBH() {
+        FRBHIteratorLayoutAlgorithm layoutAlgorithmTwo = new FRBHIteratorLayoutAlgorithm();
+        // using the same random seed each time for repeatable results from each test.
+        layoutAlgorithmTwo.setRandomSeed(0);
+        doTest(layoutAlgorithmTwo);
+    }
 
-  @Test
-  public void testFRBHVisitor() {
-    FRBHVisitorLayoutAlgorithm layoutAlgorithmThree = new FRBHVisitorLayoutAlgorithm();
-    // using the same random seed each time for repeatable results from each test.
-    layoutAlgorithmThree.setRandomSeed(0);
-    doTest(layoutAlgorithmThree);
-  }
+    @Test
+    public void testFRBHVisitor() {
+        FRBHVisitorLayoutAlgorithm layoutAlgorithmThree = new FRBHVisitorLayoutAlgorithm();
+        // using the same random seed each time for repeatable results from each test.
+        layoutAlgorithmThree.setRandomSeed(0);
+        doTest(layoutAlgorithmThree);
+    }
 
-  private void doTest(LayoutAlgorithm<String> layoutAlgorithm) {
-    long startTime = System.currentTimeMillis();
-    layoutModel.accept(layoutAlgorithm);
-    layoutModel
-        .getTheFuture()
-        .thenRun(
-            () ->
-                log.info(
-                    "elapsed time for {} was {}",
-                    layoutAlgorithm.getClass().getName(),
-                    System.currentTimeMillis() - startTime))
-        .join();
-  }
+    private void doTest(LayoutAlgorithm<String> layoutAlgorithm) {
+        long startTime = System.currentTimeMillis();
+        layoutModel.accept(layoutAlgorithm);
+        layoutModel
+                .getTheFuture()
+                .thenRun(
+                        () ->
+                                log.info(
+                                        "elapsed time for {} was {}",
+                                        layoutAlgorithm.getClass().getName(),
+                                        System.currentTimeMillis() - startTime))
+                .join();
+    }
 }

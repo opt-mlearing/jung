@@ -11,7 +11,9 @@ import edu.uci.ics.jung.layout.algorithms.LayoutAlgorithm;
 import edu.uci.ics.jung.layout.model.LayoutModel;
 import edu.uci.ics.jung.layout.model.LoadingCacheLayoutModel;
 import edu.uci.ics.jung.layout.model.Point;
+
 import java.util.Map;
+
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
@@ -44,124 +46,124 @@ import org.slf4j.LoggerFactory;
  */
 public class FRLayoutsTest {
 
-  private static final Logger log = LoggerFactory.getLogger(FRLayoutsTest.class);
-  MutableGraph<String> graph;
-  LayoutModel<String> layoutModel;
-  static Map<String, Point> mapOne = Maps.newHashMap();
-  static Map<String, Point> mapTwo = Maps.newHashMap();
-  static Map<String, Point> mapThree = Maps.newHashMap();
+    private static final Logger log = LoggerFactory.getLogger(FRLayoutsTest.class);
+    MutableGraph<String> graph;
+    LayoutModel<String> layoutModel;
+    static Map<String, Point> mapOne = Maps.newHashMap();
+    static Map<String, Point> mapTwo = Maps.newHashMap();
+    static Map<String, Point> mapThree = Maps.newHashMap();
 
-  /**
-   * this runs again before each test. Build a simple graph, build a custom layout model (see below)
-   * initialize the locations to be the same each time.
-   */
-  @Before
-  public void setup() {
-    graph = GraphBuilder.directed().build();
-    graph.putEdge("A", "B");
-    graph.putEdge("B", "C");
-    graph.putEdge("C", "A");
-    graph.putEdge("D", "C");
+    /**
+     * this runs again before each test. Build a simple graph, build a custom layout model (see below)
+     * initialize the locations to be the same each time.
+     */
+    @Before
+    public void setup() {
+        graph = GraphBuilder.directed().build();
+        graph.putEdge("A", "B");
+        graph.putEdge("B", "C");
+        graph.putEdge("C", "A");
+        graph.putEdge("D", "C");
 
-    layoutModel =
-        new TestLayoutModel<String>(
-            LoadingCacheLayoutModel.<String>builder().setGraph(graph).setSize(500, 500), 200);
-    layoutModel.set("A", Point.of(200, 100));
-    layoutModel.set("B", Point.of(100, 200));
-    layoutModel.set("C", Point.of(100, 100));
-    layoutModel.set("D", Point.of(500, 100));
-    for (String node : graph.nodes()) {
-      log.debug("node {} starts at {}", node, layoutModel.apply(node));
-    }
-  }
-
-  @Test
-  public void testFRLayouts() {
-    FRLayoutAlgorithm layoutAlgorithmOne = new FRLayoutAlgorithm();
-    // using the same random seed each time for repeatable results from each test.
-    layoutAlgorithmOne.setRandomSeed(0);
-    doTest(layoutAlgorithmOne, mapOne);
-  }
-
-  @Test
-  public void testFRBH() {
-    FRBHIteratorLayoutAlgorithm layoutAlgorithmTwo = new FRBHIteratorLayoutAlgorithm();
-    // using the same random seed each time for repeatable results from each test.
-    layoutAlgorithmTwo.setRandomSeed(0);
-    doTest(layoutAlgorithmTwo, mapTwo);
-  }
-
-  @Test
-  public void testFRBHVisitor() {
-    FRBHVisitorLayoutAlgorithm layoutAlgorithmThree = new FRBHVisitorLayoutAlgorithm();
-    // using the same random seed each time for repeatable results from each test.
-    layoutAlgorithmThree.setRandomSeed(0);
-    doTest(layoutAlgorithmThree, mapThree);
-  }
-
-  /**
-   * check to see if mapTwo and mapThree (the ones that used the BarnesHut optimization) returned
-   * similar results
-   */
-  @AfterClass
-  public static void check() {
-    log.debug("mapOne:{}", mapOne);
-    log.debug("mapTwo:{}", mapTwo);
-    log.debug("mapThree:{}", mapThree);
-
-    Assert.assertTrue(
-        "the compared maps are not close enough: mapTwo:" + mapTwo + ", mapThree:" + mapThree,
-        closeEnough(mapTwo, mapThree));
-  }
-
-  private void doTest(LayoutAlgorithm<String> layoutAlgorithm, Map<String, Point> map) {
-    log.debug("for {}", layoutAlgorithm.getClass());
-    layoutModel.accept(layoutAlgorithm);
-    for (String node : graph.nodes()) {
-      map.put(node, layoutModel.apply(node));
-      log.debug("node {} placed at {}", node, layoutModel.apply(node));
-    }
-  }
-
-  private static boolean closeEnough(Map<String, Point> left, Map<String, Point> right) {
-    if (left.keySet().equals(right.keySet())) {
-      for (String key : left.keySet()) {
-        Point leftPoint = left.get(key);
-        Point rightPoint = right.get(key);
-        if (Math.abs(leftPoint.x - rightPoint.x) > 0.001) return false;
-        if (Math.abs(leftPoint.y - rightPoint.y) > 0.001) return false;
-      }
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * a LoadingCacheLayoutModel that will not start a relax thread, but will 'step' the layout the
-   * number of times requested in a passed parameter
-   *
-   * @param <T>
-   */
-  private static class TestLayoutModel<T> extends LoadingCacheLayoutModel<T> {
-
-    // how many steps
-    private int steps;
-
-    public TestLayoutModel(Builder<T, ?> builder, int steps) {
-      super(builder);
-      this.steps = steps;
-    }
-
-    @Override
-    public void accept(LayoutAlgorithm<T> layoutAlgorithm) {
-      layoutAlgorithm.visit(this);
-      if (layoutAlgorithm instanceof IterativeLayoutAlgorithm) {
-        IterativeLayoutAlgorithm iterativeLayoutAlgorithm =
-            (IterativeLayoutAlgorithm) layoutAlgorithm;
-        for (int i = 0; i < steps; i++) {
-          iterativeLayoutAlgorithm.step();
+        layoutModel =
+                new TestLayoutModel<String>(
+                        LoadingCacheLayoutModel.<String>builder().setGraph(graph).setSize(500, 500), 200);
+        layoutModel.set("A", Point.of(200, 100));
+        layoutModel.set("B", Point.of(100, 200));
+        layoutModel.set("C", Point.of(100, 100));
+        layoutModel.set("D", Point.of(500, 100));
+        for (String node : graph.nodes()) {
+            log.debug("node {} starts at {}", node, layoutModel.apply(node));
         }
-      }
     }
-  }
+
+    @Test
+    public void testFRLayouts() {
+        FRLayoutAlgorithm layoutAlgorithmOne = new FRLayoutAlgorithm();
+        // using the same random seed each time for repeatable results from each test.
+        layoutAlgorithmOne.setRandomSeed(0);
+        doTest(layoutAlgorithmOne, mapOne);
+    }
+
+    @Test
+    public void testFRBH() {
+        FRBHIteratorLayoutAlgorithm layoutAlgorithmTwo = new FRBHIteratorLayoutAlgorithm();
+        // using the same random seed each time for repeatable results from each test.
+        layoutAlgorithmTwo.setRandomSeed(0);
+        doTest(layoutAlgorithmTwo, mapTwo);
+    }
+
+    @Test
+    public void testFRBHVisitor() {
+        FRBHVisitorLayoutAlgorithm layoutAlgorithmThree = new FRBHVisitorLayoutAlgorithm();
+        // using the same random seed each time for repeatable results from each test.
+        layoutAlgorithmThree.setRandomSeed(0);
+        doTest(layoutAlgorithmThree, mapThree);
+    }
+
+    /**
+     * check to see if mapTwo and mapThree (the ones that used the BarnesHut optimization) returned
+     * similar results
+     */
+    @AfterClass
+    public static void check() {
+        log.debug("mapOne:{}", mapOne);
+        log.debug("mapTwo:{}", mapTwo);
+        log.debug("mapThree:{}", mapThree);
+
+        Assert.assertTrue(
+                "the compared maps are not close enough: mapTwo:" + mapTwo + ", mapThree:" + mapThree,
+                closeEnough(mapTwo, mapThree));
+    }
+
+    private void doTest(LayoutAlgorithm<String> layoutAlgorithm, Map<String, Point> map) {
+        log.debug("for {}", layoutAlgorithm.getClass());
+        layoutModel.accept(layoutAlgorithm);
+        for (String node : graph.nodes()) {
+            map.put(node, layoutModel.apply(node));
+            log.debug("node {} placed at {}", node, layoutModel.apply(node));
+        }
+    }
+
+    private static boolean closeEnough(Map<String, Point> left, Map<String, Point> right) {
+        if (left.keySet().equals(right.keySet())) {
+            for (String key : left.keySet()) {
+                Point leftPoint = left.get(key);
+                Point rightPoint = right.get(key);
+                if (Math.abs(leftPoint.x - rightPoint.x) > 0.001) return false;
+                if (Math.abs(leftPoint.y - rightPoint.y) > 0.001) return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * a LoadingCacheLayoutModel that will not start a relax thread, but will 'step' the layout the
+     * number of times requested in a passed parameter
+     *
+     * @param <T>
+     */
+    private static class TestLayoutModel<T> extends LoadingCacheLayoutModel<T> {
+
+        // how many steps
+        private int steps;
+
+        public TestLayoutModel(Builder<T, ?> builder, int steps) {
+            super(builder);
+            this.steps = steps;
+        }
+
+        @Override
+        public void accept(LayoutAlgorithm<T> layoutAlgorithm) {
+            layoutAlgorithm.visit(this);
+            if (layoutAlgorithm instanceof IterativeLayoutAlgorithm) {
+                IterativeLayoutAlgorithm iterativeLayoutAlgorithm =
+                        (IterativeLayoutAlgorithm) layoutAlgorithm;
+                for (int i = 0; i < steps; i++) {
+                    iterativeLayoutAlgorithm.step();
+                }
+            }
+        }
+    }
 }

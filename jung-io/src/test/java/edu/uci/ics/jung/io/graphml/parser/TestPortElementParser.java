@@ -17,62 +17,62 @@ import org.junit.Test;
 
 public class TestPortElementParser extends AbstractParserTest {
 
-  @Test(expected = GraphIOException.class)
-  public void testNoName() throws Exception {
+    @Test(expected = GraphIOException.class)
+    public void testNoName() throws Exception {
 
-    String xml = "<port/>";
+        String xml = "<port/>";
 
-    readObject(xml);
-  }
+        readObject(xml);
+    }
 
-  @Test
-  public void testName() throws Exception {
+    @Test
+    public void testName() throws Exception {
 
-    String xml = "<port name=\"p1\"/>";
+        String xml = "<port name=\"p1\"/>";
 
-    PortMetadata port = (PortMetadata) readObject(xml);
-    Assert.assertNotNull(port);
-    Assert.assertEquals("p1", port.getName());
-    Assert.assertEquals(null, port.getDescription());
-  }
+        PortMetadata port = (PortMetadata) readObject(xml);
+        Assert.assertNotNull(port);
+        Assert.assertEquals("p1", port.getName());
+        Assert.assertEquals(null, port.getDescription());
+    }
 
-  @Test
-  public void testDesc() throws Exception {
+    @Test
+    public void testDesc() throws Exception {
 
-    String xml = "<port name=\"p1\">" + "<desc>this is my port</desc>" + "</port>";
+        String xml = "<port name=\"p1\">" + "<desc>this is my port</desc>" + "</port>";
 
-    PortMetadata port = (PortMetadata) readObject(xml);
-    Assert.assertNotNull(port);
-    Assert.assertEquals("p1", port.getName());
-    Assert.assertEquals("this is my port", port.getDescription());
-  }
+        PortMetadata port = (PortMetadata) readObject(xml);
+        Assert.assertNotNull(port);
+        Assert.assertEquals("p1", port.getName());
+        Assert.assertEquals("this is my port", port.getDescription());
+    }
 
-  @Test
-  public void testUserAttributes() throws Exception {
+    @Test
+    public void testUserAttributes() throws Exception {
 
-    String xml = "<port name=\"p1\" bob=\"abc123\"/>";
+        String xml = "<port name=\"p1\" bob=\"abc123\"/>";
 
-    PortMetadata port = (PortMetadata) readObject(xml);
-    Assert.assertNotNull(port);
-    Assert.assertEquals("p1", port.getName());
-    Assert.assertEquals(1, port.getProperties().size());
-    Assert.assertEquals("abc123", port.getProperty("bob"));
-  }
+        PortMetadata port = (PortMetadata) readObject(xml);
+        Assert.assertNotNull(port);
+        Assert.assertEquals("p1", port.getName());
+        Assert.assertEquals(1, port.getProperties().size());
+        Assert.assertEquals("abc123", port.getProperty("bob"));
+    }
 
-  @Test
-  public void testData() throws Exception {
+    @Test
+    public void testData() throws Exception {
 
-    String xml =
-        "<port name=\"p1\">"
-            + "<data key=\"d1\">value1</data>"
-            + "<data key=\"d2\">value2</data>"
-            + "</port>";
+        String xml =
+                "<port name=\"p1\">"
+                        + "<data key=\"d1\">value1</data>"
+                        + "<data key=\"d2\">value2</data>"
+                        + "</port>";
 
-    PortMetadata port = (PortMetadata) readObject(xml);
-    Assert.assertNotNull(port);
-    Assert.assertEquals("p1", port.getName());
-    Assert.assertEquals(2, port.getProperties().size());
-    Assert.assertEquals("value1", port.getProperty("d1"));
-    Assert.assertEquals("value2", port.getProperty("d2"));
-  }
+        PortMetadata port = (PortMetadata) readObject(xml);
+        Assert.assertNotNull(port);
+        Assert.assertEquals("p1", port.getName());
+        Assert.assertEquals(2, port.getProperties().size());
+        Assert.assertEquals("value1", port.getProperty("d1"));
+        Assert.assertEquals("value2", port.getProperty("d2"));
+    }
 }

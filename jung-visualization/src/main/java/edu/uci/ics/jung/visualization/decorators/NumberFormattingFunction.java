@@ -21,15 +21,17 @@ import java.util.function.Function;
  * @author Joshua O'Madadhain
  */
 public class NumberFormattingFunction<T> implements Function<T, String> {
-  private Function<T, ? extends Number> values;
-  private NumberFormat formatter = NumberFormat.getInstance();
+    private Function<T, ? extends Number> values;
+    private NumberFormat formatter = NumberFormat.getInstance();
 
-  public NumberFormattingFunction(Function<T, ? extends Number> values) {
-    this.values = values;
-  }
+    public NumberFormattingFunction(Function<T, ? extends Number> values) {
+        this.values = values;
+    }
 
-  /** Returns a formatted string for the input. */
-  public String apply(T input) {
-    return formatter.format(values.apply(input));
-  }
+    /**
+     * Returns a formatted string for the input.
+     */
+    public String apply(T input) {
+        return formatter.format(values.apply(input));
+    }
 }

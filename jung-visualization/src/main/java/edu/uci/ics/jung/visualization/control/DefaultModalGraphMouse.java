@@ -34,65 +34,69 @@ import java.awt.event.KeyEvent;
  * @author Tom Nelson
  */
 public class DefaultModalGraphMouse<N, E> extends AbstractModalGraphMouse
-    implements ModalGraphMouse, ItemSelectable {
+        implements ModalGraphMouse, ItemSelectable {
 
-  /** create an instance with default values */
-  public DefaultModalGraphMouse() {
-    this(1.1f, 1 / 1.1f);
-  }
-
-  /**
-   * create an instance with passed values
-   *
-   * @param in override value for scale in
-   * @param out override value for scale out
-   */
-  public DefaultModalGraphMouse(float in, float out) {
-    super(in, out);
-    loadPlugins();
-    setModeKeyListener(new ModeKeyAdapter(this));
-  }
-
-  /** create the plugins, and load the plugins for TRANSFORMING mode */
-  @Override
-  protected void loadPlugins() {
-    pickingPlugin = new PickingGraphMousePlugin<N, E>();
-    animatedPickingPlugin = new AnimatedPickingGraphMousePlugin<N, E>();
-    translatingPlugin = new TranslatingGraphMousePlugin(InputEvent.BUTTON1_MASK);
-    scalingPlugin = new ScalingGraphMousePlugin(new CrossoverScalingControl(), 0, in, out);
-    rotatingPlugin = new RotatingGraphMousePlugin();
-    shearingPlugin = new ShearingGraphMousePlugin();
-
-    add(scalingPlugin);
-    setMode(Mode.TRANSFORMING);
-  }
-
-  public static class ModeKeyAdapter extends KeyAdapter {
-    private char t = 't';
-    private char p = 'p';
-    protected ModalGraphMouse graphMouse;
-
-    public ModeKeyAdapter(ModalGraphMouse graphMouse) {
-      this.graphMouse = graphMouse;
+    /**
+     * create an instance with default values
+     */
+    public DefaultModalGraphMouse() {
+        this(1.1f, 1 / 1.1f);
     }
 
-    public ModeKeyAdapter(char t, char p, ModalGraphMouse graphMouse) {
-      this.t = t;
-      this.p = p;
-      this.graphMouse = graphMouse;
+    /**
+     * create an instance with passed values
+     *
+     * @param in  override value for scale in
+     * @param out override value for scale out
+     */
+    public DefaultModalGraphMouse(float in, float out) {
+        super(in, out);
+        loadPlugins();
+        setModeKeyListener(new ModeKeyAdapter(this));
     }
 
+    /**
+     * create the plugins, and load the plugins for TRANSFORMING mode
+     */
     @Override
-    public void keyTyped(KeyEvent event) {
-      char keyChar = event.getKeyChar();
-      if (keyChar == t) {
-        ((Component) event.getSource())
-            .setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        graphMouse.setMode(Mode.TRANSFORMING);
-      } else if (keyChar == p) {
-        ((Component) event.getSource()).setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        graphMouse.setMode(Mode.PICKING);
-      }
+    protected void loadPlugins() {
+        pickingPlugin = new PickingGraphMousePlugin<N, E>();
+        animatedPickingPlugin = new AnimatedPickingGraphMousePlugin<N, E>();
+        translatingPlugin = new TranslatingGraphMousePlugin(InputEvent.BUTTON1_MASK);
+        scalingPlugin = new ScalingGraphMousePlugin(new CrossoverScalingControl(), 0, in, out);
+        rotatingPlugin = new RotatingGraphMousePlugin();
+        shearingPlugin = new ShearingGraphMousePlugin();
+
+        add(scalingPlugin);
+        setMode(Mode.TRANSFORMING);
     }
-  }
+
+    public static class ModeKeyAdapter extends KeyAdapter {
+        private char t = 't';
+        private char p = 'p';
+        protected ModalGraphMouse graphMouse;
+
+        public ModeKeyAdapter(ModalGraphMouse graphMouse) {
+            this.graphMouse = graphMouse;
+        }
+
+        public ModeKeyAdapter(char t, char p, ModalGraphMouse graphMouse) {
+            this.t = t;
+            this.p = p;
+            this.graphMouse = graphMouse;
+        }
+
+        @Override
+        public void keyTyped(KeyEvent event) {
+            char keyChar = event.getKeyChar();
+            if (keyChar == t) {
+                ((Component) event.getSource())
+                        .setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                graphMouse.setMode(Mode.TRANSFORMING);
+            } else if (keyChar == p) {
+                ((Component) event.getSource()).setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                graphMouse.setMode(Mode.PICKING);
+            }
+        }
+    }
 }

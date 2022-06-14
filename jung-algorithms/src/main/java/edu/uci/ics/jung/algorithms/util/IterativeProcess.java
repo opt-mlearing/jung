@@ -34,103 +34,139 @@ import com.google.common.base.Preconditions;
  * @author Scott White (originally written by Didier Besset)
  */
 public abstract class IterativeProcess implements IterativeContext {
-  /** Number of iterations performed. */
-  private int iterations;
-  /** Maximum allowed number of iterations. */
-  private int maximumIterations = 50;
-  /** Desired precision. */
-  private double desiredPrecision = Double.MIN_VALUE;
-  /** Achieved precision. */
-  private double precision;
+    /**
+     * Number of iterations performed.
+     */
+    private int iterations;
+    /**
+     * Maximum allowed number of iterations.
+     */
+    private int maximumIterations = 50;
+    /**
+     * Desired precision.
+     */
+    private double desiredPrecision = Double.MIN_VALUE;
+    /**
+     * Achieved precision.
+     */
+    private double precision;
 
-  /** Generic constructor. */
-  public IterativeProcess() {}
-
-  /**
-   * Performs the iterative process. Note: this method does not return anything because Java does
-   * not allow mixing double, int, or objects
-   */
-  public void evaluate() {
-    iterations = 0;
-    initializeIterations();
-    while (iterations++ < maximumIterations) {
-      step();
-      precision = getPrecision();
-      if (hasConverged()) {
-        break;
-      }
+    /**
+     * Generic constructor.
+     */
+    public IterativeProcess() {
     }
-    finalizeIterations();
-  }
 
-  /** Evaluate the result of the current iteration. */
-  public abstract void step();
+    /**
+     * Performs the iterative process. Note: this method does not return anything because Java does
+     * not allow mixing double, int, or objects
+     */
+    public void evaluate() {
+        iterations = 0;
+        initializeIterations();
+        while (iterations++ < maximumIterations) {
+            step();
+            precision = getPrecision();
+            if (hasConverged()) {
+                break;
+            }
+        }
+        finalizeIterations();
+    }
 
-  /** Perform eventual clean-up operations (must be implement by subclass when needed). */
-  protected void finalizeIterations() {}
+    /**
+     * Evaluate the result of the current iteration.
+     */
+    public abstract void step();
 
-  /** @return the desired precision. */
-  public double getDesiredPrecision() {
-    return desiredPrecision;
-  }
+    /**
+     * Perform eventual clean-up operations (must be implement by subclass when needed).
+     */
+    protected void finalizeIterations() {
+    }
 
-  /** @return the number of iterations performed. */
-  public int getIterations() {
-    return iterations;
-  }
+    /**
+     * @return the desired precision.
+     */
+    public double getDesiredPrecision() {
+        return desiredPrecision;
+    }
 
-  /** @return the maximum allowed number of iterations. */
-  public int getMaximumIterations() {
-    return maximumIterations;
-  }
+    /**
+     * @return the number of iterations performed.
+     */
+    public int getIterations() {
+        return iterations;
+    }
 
-  /** @return the attained precision. */
-  public double getPrecision() {
-    return precision;
-  }
+    /**
+     * @return the maximum allowed number of iterations.
+     */
+    public int getMaximumIterations() {
+        return maximumIterations;
+    }
 
-  /** @param precision the precision to set */
-  public void setPrecision(double precision) {
-    this.precision = precision;
-  }
+    /**
+     * @return the attained precision.
+     */
+    public double getPrecision() {
+        return precision;
+    }
 
-  /**
-   * Check to see if the result has been attained.
-   *
-   * @return boolean
-   */
-  public boolean hasConverged() {
-    return precision < desiredPrecision;
-  }
+    /**
+     * @param precision the precision to set
+     */
+    public void setPrecision(double precision) {
+        this.precision = precision;
+    }
 
-  public boolean done() {
-    return hasConverged();
-  }
+    /**
+     * Check to see if the result has been attained.
+     *
+     * @return boolean
+     */
+    public boolean hasConverged() {
+        return precision < desiredPrecision;
+    }
 
-  /** Initializes internal parameters to start the iterative process. */
-  protected void initializeIterations() {}
+    public boolean done() {
+        return hasConverged();
+    }
 
-  /** */
-  public void reset() {}
+    /**
+     * Initializes internal parameters to start the iterative process.
+     */
+    protected void initializeIterations() {
+    }
 
-  /**
-   * @return double
-   * @param epsilon double
-   * @param x double
-   */
-  public double relativePrecision(double epsilon, double x) {
-    return x > desiredPrecision ? epsilon / x : epsilon;
-  }
+    /**
+     *
+     */
+    public void reset() {
+    }
 
-  /** @param prec the desired precision. */
-  public void setDesiredPrecision(double prec) throws IllegalArgumentException {
-    Preconditions.checkArgument(prec > 0, "precision must be positive");
-    desiredPrecision = prec;
-  }
+    /**
+     * @param epsilon double
+     * @param x       double
+     * @return double
+     */
+    public double relativePrecision(double epsilon, double x) {
+        return x > desiredPrecision ? epsilon / x : epsilon;
+    }
 
-  /** @param maxIter the maximum allowed number of iterations */
-  public void setMaximumIterations(int maxIter) throws IllegalArgumentException {
-    Preconditions.checkArgument(maxIter >= 1, "max iterations must be >= 1");
-    maximumIterations = maxIter;
-  }
+    /**
+     * @param prec the desired precision.
+     */
+    public void setDesiredPrecision(double prec) throws IllegalArgumentException {
+        Preconditions.checkArgument(prec > 0, "precision must be positive");
+        desiredPrecision = prec;
+    }
+
+    /**
+     * @param maxIter the maximum allowed number of iterations
+     */
+    public void setMaximumIterations(int maxIter) throws IllegalArgumentException {
+        Preconditions.checkArgument(maxIter >= 1, "max iterations must be >= 1");
+        maximumIterations = maxIter;
+    }
 }

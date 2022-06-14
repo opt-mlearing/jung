@@ -20,12 +20,12 @@ import java.util.function.Function;
  * @author Joshua O'Madadhain
  */
 public interface SettableTransformer<I, O> extends Function<I, O> {
-  /**
-   * Sets the value (<code>output</code>) to be returned by a call to <code>transform(input)</code>
-   * ).
-   *
-   * @param input the value whose output value is being specified
-   * @param output the output value for {@code input}
-   */
-  public void set(I input, O output);
+    /**
+     * Sets the value (<code>output</code>) to be returned by a call to <code>transform(input)</code>
+     * ).
+     *
+     * @param input  the value whose output value is being specified
+     * @param output the output value for {@code input}
+     */
+    public void set(I input, O output);
 }

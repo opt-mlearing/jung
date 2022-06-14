@@ -18,59 +18,59 @@ package edu.uci.ics.jung.io.graphml;
  */
 public class EndpointMetadata extends AbstractMetadata {
 
-  public enum EndpointType {
-    IN,
-    OUT,
-    UNDIR
-  }
+    public enum EndpointType {
+        IN,
+        OUT,
+        UNDIR
+    }
 
-  private String id;
-  private String port;
-  private String node;
-  private String description;
-  private EndpointType endpointType = EndpointType.UNDIR;
+    private String id;
+    private String port;
+    private String node;
+    private String description;
+    private EndpointType endpointType = EndpointType.UNDIR;
 
-  public String getId() {
-    return id;
-  }
+    public String getId() {
+        return id;
+    }
 
-  public void setId(String id) {
-    this.id = id;
-  }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-  public String getPort() {
-    return port;
-  }
+    public String getPort() {
+        return port;
+    }
 
-  public void setPort(String port) {
-    this.port = port;
-  }
+    public void setPort(String port) {
+        this.port = port;
+    }
 
-  public String getNode() {
-    return node;
-  }
+    public String getNode() {
+        return node;
+    }
 
-  public void setNode(String node) {
-    this.node = node;
-  }
+    public void setNode(String node) {
+        this.node = node;
+    }
 
-  public EndpointType getEndpointType() {
-    return endpointType;
-  }
+    public EndpointType getEndpointType() {
+        return endpointType;
+    }
 
-  public void setEndpointType(EndpointType endpointType) {
-    this.endpointType = endpointType;
-  }
+    public void setEndpointType(EndpointType endpointType) {
+        this.endpointType = endpointType;
+    }
 
-  public String getDescription() {
-    return description;
-  }
+    public String getDescription() {
+        return description;
+    }
 
-  public void setDescription(String description) {
-    this.description = description;
-  }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-  public MetadataType getMetadataType() {
-    return MetadataType.ENDPOINT;
-  }
+    public MetadataType getMetadataType() {
+        return MetadataType.ENDPOINT;
+    }
 }

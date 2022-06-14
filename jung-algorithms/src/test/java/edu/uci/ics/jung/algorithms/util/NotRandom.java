@@ -13,40 +13,42 @@ import java.util.Random;
  */
 @SuppressWarnings("serial")
 public class NotRandom extends Random {
-  private int i = 0;
-  private int d = 0;
-  private int size = 100;
+    private int i = 0;
+    private int d = 0;
+    private int size = 100;
 
-  /**
-   * Creates an instance with the specified sample size.
-   *
-   * @param size the sample size
-   */
-  public NotRandom(int size) {
-    this.size = size;
-  }
+    /**
+     * Creates an instance with the specified sample size.
+     *
+     * @param size the sample size
+     */
+    public NotRandom(int size) {
+        this.size = size;
+    }
 
-  /** Returns the post-incremented value of the internal counter modulo n. */
-  @Override
-  public int nextInt(int n) {
-    return i++ % n;
-  }
+    /**
+     * Returns the post-incremented value of the internal counter modulo n.
+     */
+    @Override
+    public int nextInt(int n) {
+        return i++ % n;
+    }
 
-  /**
-   * Returns the post-incremented value of the internal counter modulo {@code size}, divided by
-   * {@code size}.
-   */
-  @Override
-  public double nextDouble() {
-    return (d++ % size) / (double) size;
-  }
+    /**
+     * Returns the post-incremented value of the internal counter modulo {@code size}, divided by
+     * {@code size}.
+     */
+    @Override
+    public double nextDouble() {
+        return (d++ % size) / (double) size;
+    }
 
-  /**
-   * Returns the post-incremented value of the internal counter modulo {@code size}, divided by
-   * {@code size}.
-   */
-  @Override
-  public float nextFloat() {
-    return (d++ % size) / (float) size;
-  }
+    /**
+     * Returns the post-incremented value of the internal counter modulo {@code size}, divided by
+     * {@code size}.
+     */
+    @Override
+    public float nextFloat() {
+        return (d++ % size) / (float) size;
+    }
 }

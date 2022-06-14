@@ -11,6 +11,7 @@
 package edu.uci.ics.jung.io.graphml.parser;
 
 import edu.uci.ics.jung.io.GraphIOException;
+
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.events.StartElement;
 
@@ -21,5 +22,5 @@ import javax.xml.stream.events.StartElement;
  * @see ElementParserRegistry
  */
 public interface ElementParser {
-  Object parse(XMLEventReader xmlEventReader, StartElement start) throws GraphIOException;
+    Object parse(XMLEventReader xmlEventReader, StartElement start) throws GraphIOException;
 }

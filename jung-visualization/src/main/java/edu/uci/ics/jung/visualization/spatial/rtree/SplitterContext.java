@@ -8,15 +8,15 @@ package edu.uci.ics.jung.visualization.spatial.rtree;
  */
 public class SplitterContext<T> {
 
-  public final LeafSplitter<T> leafSplitter;
-  public final Splitter<T> splitter;
+    public final LeafSplitter<T> leafSplitter;
+    public final Splitter<T> splitter;
 
-  public static <T> SplitterContext<T> of(LeafSplitter<T> leafSplitter, Splitter<T> splitter) {
-    return new SplitterContext<>(leafSplitter, splitter);
-  }
+    public static <T> SplitterContext<T> of(LeafSplitter<T> leafSplitter, Splitter<T> splitter) {
+        return new SplitterContext<>(leafSplitter, splitter);
+    }
 
-  private SplitterContext(LeafSplitter<T> leafSplitter, Splitter<T> splitter) {
-    this.leafSplitter = leafSplitter;
-    this.splitter = splitter;
-  }
+    private SplitterContext(LeafSplitter<T> leafSplitter, Splitter<T> splitter) {
+        this.leafSplitter = leafSplitter;
+        this.splitter = splitter;
+    }
 }

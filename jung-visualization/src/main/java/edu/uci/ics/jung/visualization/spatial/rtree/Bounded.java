@@ -9,10 +9,10 @@ import java.awt.geom.Rectangle2D;
  */
 public interface Bounded {
 
-  /**
-   * return the Rectangle of the bounding box
-   *
-   * @return
-   */
-  Rectangle2D getBounds();
+    /**
+     * return the Rectangle of the bounding box
+     *
+     * @return
+     */
+    Rectangle2D getBounds();
 }

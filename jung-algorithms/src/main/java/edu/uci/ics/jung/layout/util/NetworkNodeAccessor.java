@@ -21,19 +21,19 @@ import edu.uci.ics.jung.layout.model.Point;
  */
 public interface NetworkNodeAccessor<N> {
 
-  /**
-   * @param layoutModel
-   * @param p the pick point
-   * @return the node associated with the pick point
-   */
-  N getNode(LayoutModel<N> layoutModel, Point p);
+    /**
+     * @param layoutModel
+     * @param p           the pick point
+     * @return the node associated with the pick point
+     */
+    N getNode(LayoutModel<N> layoutModel, Point p);
 
-  /**
-   * Returns the node, if any, associated with (x, y).
-   *
-   * @param x the x coordinate of the pick point
-   * @param y the y coordinate of the pick point
-   * @return the node associated with (x, y)
-   */
-  N getNode(LayoutModel<N> layoutModel, double x, double y);
+    /**
+     * Returns the node, if any, associated with (x, y).
+     *
+     * @param x the x coordinate of the pick point
+     * @param y the y coordinate of the pick point
+     * @return the node associated with (x, y)
+     */
+    N getNode(LayoutModel<N> layoutModel, double x, double y);
 }

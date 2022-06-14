@@ -26,48 +26,52 @@ import java.util.Set;
  * @author Joshua O'Madadhain
  */
 public class MultiPickedState<T> extends AbstractPickedState<T> implements PickedState<T> {
-  /** the 'picked' nodes */
-  protected Set<T> picked = new LinkedHashSet<T>();
+    /**
+     * the 'picked' nodes
+     */
+    protected Set<T> picked = new LinkedHashSet<T>();
 
-  public boolean pick(T v, boolean state) {
-    boolean prior_state = this.picked.contains(v);
-    if (state) {
-      picked.add(v);
-      if (prior_state == false) {
-        fireItemStateChanged(
-            new ItemEvent(this, ItemEvent.ITEM_STATE_CHANGED, v, ItemEvent.SELECTED));
-      }
+    public boolean pick(T v, boolean state) {
+        boolean prior_state = this.picked.contains(v);
+        if (state) {
+            picked.add(v);
+            if (prior_state == false) {
+                fireItemStateChanged(
+                        new ItemEvent(this, ItemEvent.ITEM_STATE_CHANGED, v, ItemEvent.SELECTED));
+            }
 
-    } else {
-      picked.remove(v);
-      if (prior_state == true) {
-        fireItemStateChanged(
-            new ItemEvent(this, ItemEvent.ITEM_STATE_CHANGED, v, ItemEvent.DESELECTED));
-      }
+        } else {
+            picked.remove(v);
+            if (prior_state == true) {
+                fireItemStateChanged(
+                        new ItemEvent(this, ItemEvent.ITEM_STATE_CHANGED, v, ItemEvent.DESELECTED));
+            }
+        }
+        return prior_state;
     }
-    return prior_state;
-  }
 
-  public void clear() {
-    Collection<T> unpicks = new ArrayList<T>(picked);
-    for (T v : unpicks) {
-      pick(v, false);
+    public void clear() {
+        Collection<T> unpicks = new ArrayList<T>(picked);
+        for (T v : unpicks) {
+            pick(v, false);
+        }
+        picked.clear();
     }
-    picked.clear();
-  }
 
-  public Set<T> getPicked() {
-    return Collections.unmodifiableSet(picked);
-  }
+    public Set<T> getPicked() {
+        return Collections.unmodifiableSet(picked);
+    }
 
-  public boolean isPicked(T e) {
-    return picked.contains(e);
-  }
+    public boolean isPicked(T e) {
+        return picked.contains(e);
+    }
 
-  /** for the ItemSelectable interface contract */
-  @SuppressWarnings("unchecked")
-  public T[] getSelectedObjects() {
-    List<T> list = new ArrayList<T>(picked);
-    return (T[]) list.toArray();
-  }
+    /**
+     * for the ItemSelectable interface contract
+     */
+    @SuppressWarnings("unchecked")
+    public T[] getSelectedObjects() {
+        List<T> list = new ArrayList<T>(picked);
+        return (T[]) list.toArray();
+    }
 }

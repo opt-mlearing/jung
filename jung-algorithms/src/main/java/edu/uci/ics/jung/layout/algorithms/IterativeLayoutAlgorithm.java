@@ -11,10 +11,10 @@ import edu.uci.ics.jung.algorithms.util.IterativeContext;
  * @param <N> the Node type
  */
 public interface IterativeLayoutAlgorithm<N> extends LayoutAlgorithm<N>, IterativeContext {
-  /**
-   * may be a no-op depending on how the algorithm instance is created
-   *
-   * @return true if a prerelax was done, false otherwise
-   */
-  boolean preRelax();
+    /**
+     * may be a no-op depending on how the algorithm instance is created
+     *
+     * @return true if a prerelax was done, false otherwise
+     */
+    boolean preRelax();
 }

@@ -1,18 +1,18 @@
 package edu.uci.ics.jung.layout.util;
 
 /**
- * @author Tom Nelson
  * @param <T>
+ * @author Tom Nelson
  */
 public class ChangeEvent<T> {
 
-  private final T source;
+    private final T source;
 
-  public ChangeEvent(T source) {
-    this.source = source;
-  }
+    public ChangeEvent(T source) {
+        this.source = source;
+    }
 
-  public T getSource() {
-    return source;
-  }
+    public T getSource() {
+        return source;
+    }
 }

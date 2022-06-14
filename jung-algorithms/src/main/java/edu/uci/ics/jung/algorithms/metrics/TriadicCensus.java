@@ -11,6 +11,7 @@ package edu.uci.ics.jung.algorithms.metrics;
 
 import com.google.common.base.Preconditions;
 import com.google.common.graph.Graph;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -27,7 +28,7 @@ import java.util.Set;
  * <pre>
  * long[] triad_counts = TriadicCensus(dg);
  * </pre>
- *
+ * <p>
  * where <code>dg</code> is a <code>DirectedGraph</code>. ith element of the array (for i in [1,16])
  * is the number of occurrences of the corresponding triad type. (The 0th element is not meaningful;
  * this array is effectively 1-based.) To get the name of the ith triad (e.g. "003"), look at the
@@ -71,135 +72,135 @@ import java.util.Set;
  */
 public class TriadicCensus {
 
-  // NOTE THAT THIS RETURNS STANDARD 1-16 COUNT!
+    // NOTE THAT THIS RETURNS STANDARD 1-16 COUNT!
 
-  // and their types
-  public static final String[] TRIAD_NAMES = {
-    "N/A", "003", "012", "102", "021D", "021U", "021C", "111D", "111U", "030T", "030C", "201",
-    "120D", "120U", "120C", "210", "300"
-  };
+    // and their types
+    public static final String[] TRIAD_NAMES = {
+            "N/A", "003", "012", "102", "021D", "021U", "021C", "111D", "111U", "030T", "030C", "201",
+            "120D", "120U", "120C", "210", "300"
+    };
 
-  public static final int MAX_TRIADS = TRIAD_NAMES.length;
+    public static final int MAX_TRIADS = TRIAD_NAMES.length;
 
-  /**
-   * Returns an array whose ith element (for i in [1,16]) is the number of occurrences of the
-   * corresponding triad type in <code>g</code>. (The 0th element is not meaningful; this array is
-   * effectively 1-based.)
-   *
-   * @param g the graph whose properties are being measured
-   * @param <N> the node type
-   * @return an array encoding the number of occurrences of each triad type
-   */
-  public static <N> long[] getCounts(Graph<N> g) {
-    Preconditions.checkArgument(g.isDirected(), "input graph must be directed");
-    long[] count = new long[MAX_TRIADS];
+    /**
+     * Returns an array whose ith element (for i in [1,16]) is the number of occurrences of the
+     * corresponding triad type in <code>g</code>. (The 0th element is not meaningful; this array is
+     * effectively 1-based.)
+     *
+     * @param g   the graph whose properties are being measured
+     * @param <N> the node type
+     * @return an array encoding the number of occurrences of each triad type
+     */
+    public static <N> long[] getCounts(Graph<N> g) {
+        Preconditions.checkArgument(g.isDirected(), "input graph must be directed");
+        long[] count = new long[MAX_TRIADS];
 
-    // TODO: can we make this more efficient and not require the extra list?
-    List<N> id = new ArrayList<N>(g.nodes());
+        // TODO: can we make this more efficient and not require the extra list?
+        List<N> id = new ArrayList<N>(g.nodes());
 
-    // apply algorithm to each edge, one at at time
-    for (int i_v = 0; i_v < id.size(); i_v++) {
-      N v = id.get(i_v);
-      for (N u : g.adjacentNodes(v)) {
-        int triType = -1;
-        if (id.indexOf(u) <= i_v) {
-          continue;
+        // apply algorithm to each edge, one at at time
+        for (int i_v = 0; i_v < id.size(); i_v++) {
+            N v = id.get(i_v);
+            for (N u : g.adjacentNodes(v)) {
+                int triType = -1;
+                if (id.indexOf(u) <= i_v) {
+                    continue;
+                }
+                Set<N> neighbors = new HashSet<N>(g.adjacentNodes(u));
+                neighbors.addAll(g.adjacentNodes(v));
+                neighbors.remove(u);
+                neighbors.remove(v);
+                // TODO: use hasEdge() when available
+                if (g.successors(v).contains(u) && g.successors(u).contains(v)) {
+                    triType = 3;
+                } else {
+                    triType = 2;
+                }
+                count[triType] += id.size() - neighbors.size() - 2;
+                for (N w : neighbors) {
+                    if (shouldCount(g, id, u, v, w)) {
+                        count[triType(triCode(g, u, v, w))]++;
+                    }
+                }
+            }
         }
-        Set<N> neighbors = new HashSet<N>(g.adjacentNodes(u));
-        neighbors.addAll(g.adjacentNodes(v));
-        neighbors.remove(u);
-        neighbors.remove(v);
-        // TODO: use hasEdge() when available
-        if (g.successors(v).contains(u) && g.successors(u).contains(v)) {
-          triType = 3;
-        } else {
-          triType = 2;
+        long sum = 0;
+        for (int i = 2; i <= 16; i++) {
+            sum += count[i];
         }
-        count[triType] += id.size() - neighbors.size() - 2;
-        for (N w : neighbors) {
-          if (shouldCount(g, id, u, v, w)) {
-            count[triType(triCode(g, u, v, w))]++;
-          }
+        int n = id.size();
+        count[1] = n * (n - 1) * (n - 2) / 6 - sum;
+        return count;
+    }
+
+    /**
+     * This is the core of the technique in the paper. Returns an int from 0 to 63 which encodes the
+     * presence of all possible links between u, v, and w as bit flags: WU = 32, UW = 16, WV = 8, VW =
+     * 4, UV = 2, VU = 1
+     *
+     * @param g   the graph for which the calculation is being made
+     * @param u   a node in g
+     * @param v   a node in g
+     * @param w   a node in g
+     * @param <N> the node type
+     * @return an int encoding the presence of all links between u, v, and w
+     */
+    public static <N, E> int triCode(Graph<N> g, N u, N v, N w) {
+        int i = 0;
+        i += link(g, v, u) ? 1 : 0;
+        i += link(g, u, v) ? 2 : 0;
+        i += link(g, v, w) ? 4 : 0;
+        i += link(g, w, v) ? 8 : 0;
+        i += link(g, u, w) ? 16 : 0;
+        i += link(g, w, u) ? 32 : 0;
+        return i;
+    }
+
+    protected static <N, E> boolean link(Graph<N> g, N a, N b) {
+        return g.predecessors(b).contains(a);
+    }
+
+    /**
+     * @param triCode the code returned by {@code triCode()}
+     * @return the string code associated with the numeric type
+     */
+    public static int triType(int triCode) {
+        return codeToType[triCode];
+    }
+
+    /**
+     * For debugging purposes, this is copied straight out of the paper which means that they refer to
+     * triad types 1-16.
+     */
+    protected static final int[] codeToType = {
+            1, 2, 2, 3, 2, 4, 6, 8, 2, 6, 5, 7, 3, 8, 7, 11, 2, 6, 4, 8, 5, 9, 9, 13, 6, 10, 9, 14, 7, 14,
+            12, 15, 2, 5, 6, 7, 6, 9, 10, 14, 4, 9, 9, 12, 8, 13, 14, 15, 3, 7, 8, 11, 7, 12, 14, 15, 8, 14,
+            13, 15, 11, 15, 15, 16
+    };
+
+    /**
+     * Return true iff this ordering is canonical and therefore we should build statistics for it.
+     *
+     * @param g   the graph whose properties are being examined
+     * @param id  a list of the nodes in g; used to assign an index to each
+     * @param u   a node in g
+     * @param v   a node in g
+     * @param w   a node in g
+     * @param <N> the node type
+     * @param <E> the edge type
+     * @return true if index(u) &lt; index(w), or if index(v) &lt; index(w) &lt; index(u) and v
+     * doesn't link to w; false otherwise
+     */
+    protected static <N, E> boolean shouldCount(Graph<N> g, List<N> id, N u, N v, N w) {
+        int i_u = id.indexOf(u);
+        int i_w = id.indexOf(w);
+        if (i_u < i_w) {
+            return true;
         }
-      }
+        int i_v = id.indexOf(v);
+        if ((i_v < i_w) && (i_w < i_u) && (!g.adjacentNodes(w).contains(v))) {
+            return true;
+        }
+        return false;
     }
-    long sum = 0;
-    for (int i = 2; i <= 16; i++) {
-      sum += count[i];
-    }
-    int n = id.size();
-    count[1] = n * (n - 1) * (n - 2) / 6 - sum;
-    return count;
-  }
-
-  /**
-   * This is the core of the technique in the paper. Returns an int from 0 to 63 which encodes the
-   * presence of all possible links between u, v, and w as bit flags: WU = 32, UW = 16, WV = 8, VW =
-   * 4, UV = 2, VU = 1
-   *
-   * @param g the graph for which the calculation is being made
-   * @param u a node in g
-   * @param v a node in g
-   * @param w a node in g
-   * @param <N> the node type
-   * @return an int encoding the presence of all links between u, v, and w
-   */
-  public static <N, E> int triCode(Graph<N> g, N u, N v, N w) {
-    int i = 0;
-    i += link(g, v, u) ? 1 : 0;
-    i += link(g, u, v) ? 2 : 0;
-    i += link(g, v, w) ? 4 : 0;
-    i += link(g, w, v) ? 8 : 0;
-    i += link(g, u, w) ? 16 : 0;
-    i += link(g, w, u) ? 32 : 0;
-    return i;
-  }
-
-  protected static <N, E> boolean link(Graph<N> g, N a, N b) {
-    return g.predecessors(b).contains(a);
-  }
-
-  /**
-   * @param triCode the code returned by {@code triCode()}
-   * @return the string code associated with the numeric type
-   */
-  public static int triType(int triCode) {
-    return codeToType[triCode];
-  }
-
-  /**
-   * For debugging purposes, this is copied straight out of the paper which means that they refer to
-   * triad types 1-16.
-   */
-  protected static final int[] codeToType = {
-    1, 2, 2, 3, 2, 4, 6, 8, 2, 6, 5, 7, 3, 8, 7, 11, 2, 6, 4, 8, 5, 9, 9, 13, 6, 10, 9, 14, 7, 14,
-    12, 15, 2, 5, 6, 7, 6, 9, 10, 14, 4, 9, 9, 12, 8, 13, 14, 15, 3, 7, 8, 11, 7, 12, 14, 15, 8, 14,
-    13, 15, 11, 15, 15, 16
-  };
-
-  /**
-   * Return true iff this ordering is canonical and therefore we should build statistics for it.
-   *
-   * @param g the graph whose properties are being examined
-   * @param id a list of the nodes in g; used to assign an index to each
-   * @param u a node in g
-   * @param v a node in g
-   * @param w a node in g
-   * @param <N> the node type
-   * @param <E> the edge type
-   * @return true if index(u) &lt; index(w), or if index(v) &lt; index(w) &lt; index(u) and v
-   *     doesn't link to w; false otherwise
-   */
-  protected static <N, E> boolean shouldCount(Graph<N> g, List<N> id, N u, N v, N w) {
-    int i_u = id.indexOf(u);
-    int i_w = id.indexOf(w);
-    if (i_u < i_w) {
-      return true;
-    }
-    int i_v = id.indexOf(v);
-    if ((i_v < i_w) && (i_w < i_u) && (!g.adjacentNodes(w).contains(v))) {
-      return true;
-    }
-    return false;
-  }
 }

@@ -14,36 +14,42 @@ import edu.uci.ics.jung.layout.algorithms.LayoutAlgorithm;
 import edu.uci.ics.jung.layout.model.LayoutModel;
 import edu.uci.ics.jung.layout.util.LayoutEventSupport;
 import edu.uci.ics.jung.visualization.util.ChangeEventSupport;
+
 import java.awt.Dimension;
 import javax.swing.event.ChangeListener;
 
-/** */
+/**
+ *
+ */
 public interface VisualizationModel<N, E> extends LayoutEventSupport<N>, ChangeEventSupport {
 
-  enum SpatialSupport {
-    RTREE,
-    QUADTREE,
-    GRID,
-    NONE
-  }
-  /** @return the current layoutSize of the visualization's space */
-  Dimension getLayoutSize();
+    enum SpatialSupport {
+        RTREE,
+        QUADTREE,
+        GRID,
+        NONE
+    }
 
-  void setLayoutAlgorithm(LayoutAlgorithm<N> layoutAlgorithm);
+    /**
+     * @return the current layoutSize of the visualization's space
+     */
+    Dimension getLayoutSize();
 
-  LayoutAlgorithm<N> getLayoutAlgorithm();
+    void setLayoutAlgorithm(LayoutAlgorithm<N> layoutAlgorithm);
 
-  LayoutModel<N> getLayoutModel();
+    LayoutAlgorithm<N> getLayoutAlgorithm();
 
-  void setLayoutModel(LayoutModel<N> layoutModel);
+    LayoutModel<N> getLayoutModel();
 
-  Network<N, E> getNetwork();
+    void setLayoutModel(LayoutModel<N> layoutModel);
 
-  void setNetwork(Network<N, E> network);
+    Network<N, E> getNetwork();
 
-  void setNetwork(Network<N, E> network, boolean forceUpdate);
+    void setNetwork(Network<N, E> network);
 
-  //  Spatial<N> getSpatial();
+    void setNetwork(Network<N, E> network, boolean forceUpdate);
 
-  void addChangeListener(ChangeListener changeListener);
+    //  Spatial<N> getSpatial();
+
+    void addChangeListener(ChangeListener changeListener);
 }

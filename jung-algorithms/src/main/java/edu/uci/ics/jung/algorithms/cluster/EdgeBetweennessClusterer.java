@@ -14,6 +14,7 @@ import com.google.common.graph.Graphs;
 import com.google.common.graph.MutableNetwork;
 import com.google.common.graph.Network;
 import edu.uci.ics.jung.algorithms.scoring.BetweennessCentrality;
+
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.function.Function;
@@ -43,63 +44,63 @@ import java.util.function.Function;
  * @see "Community structure in social and biological networks by Michelle Girvan and Mark Newman"
  */
 public class EdgeBetweennessClusterer<N, E> implements Function<Network<N, E>, Set<Set<N>>> {
-  private final int mNumEdgesToRemove;
-  private LinkedHashSet<E> edgesRemoved;
+    private final int mNumEdgesToRemove;
+    private LinkedHashSet<E> edgesRemoved;
 
-  /**
-   * Constructs a new clusterer for the specified graph.
-   *
-   * @param numEdgesToRemove the number of edges to be progressively removed from the graph
-   */
-  public EdgeBetweennessClusterer(int numEdgesToRemove) {
-    Preconditions.checkArgument(
-        numEdgesToRemove >= 0, "Number of edges to remove must be positive");
-    mNumEdgesToRemove = numEdgesToRemove;
-    edgesRemoved = new LinkedHashSet<>(mNumEdgesToRemove);
-  }
-
-  /**
-   * Finds the set of clusters which have the strongest "community structure". The more edges
-   * removed the smaller and more cohesive the clusters.
-   *
-   * @param graph the graph
-   */
-  public Set<Set<N>> apply(Network<N, E> graph) {
-    Preconditions.checkArgument(
-        mNumEdgesToRemove <= graph.edges().size(),
-        "Number of edges to remove must be <= the number of edges in the graph");
-    // TODO(jrtom): is there something smarter that we can do if we're removing
-    // (almost) all the edges in the graph?
-    MutableNetwork<N, E> filtered = Graphs.copyOf(graph);
-    edgesRemoved.clear();
-
-    for (int k = 0; k < mNumEdgesToRemove; k++) {
-      BetweennessCentrality<N, E> bc = new BetweennessCentrality<N, E>(filtered);
-      E to_remove = null;
-      double score = 0;
-      for (E e : filtered.edges()) {
-        if (bc.getEdgeScore(e) > score) {
-          to_remove = e;
-          score = bc.getEdgeScore(e);
-        }
-      }
-      edgesRemoved.add(to_remove);
-      filtered.removeEdge(to_remove);
+    /**
+     * Constructs a new clusterer for the specified graph.
+     *
+     * @param numEdgesToRemove the number of edges to be progressively removed from the graph
+     */
+    public EdgeBetweennessClusterer(int numEdgesToRemove) {
+        Preconditions.checkArgument(
+                numEdgesToRemove >= 0, "Number of edges to remove must be positive");
+        mNumEdgesToRemove = numEdgesToRemove;
+        edgesRemoved = new LinkedHashSet<>(mNumEdgesToRemove);
     }
 
-    WeakComponentClusterer<N, E> wcSearch = new WeakComponentClusterer<N, E>();
-    Set<Set<N>> clusterSet = wcSearch.apply(filtered);
+    /**
+     * Finds the set of clusters which have the strongest "community structure". The more edges
+     * removed the smaller and more cohesive the clusters.
+     *
+     * @param graph the graph
+     */
+    public Set<Set<N>> apply(Network<N, E> graph) {
+        Preconditions.checkArgument(
+                mNumEdgesToRemove <= graph.edges().size(),
+                "Number of edges to remove must be <= the number of edges in the graph");
+        // TODO(jrtom): is there something smarter that we can do if we're removing
+        // (almost) all the edges in the graph?
+        MutableNetwork<N, E> filtered = Graphs.copyOf(graph);
+        edgesRemoved.clear();
 
-    return clusterSet;
-  }
+        for (int k = 0; k < mNumEdgesToRemove; k++) {
+            BetweennessCentrality<N, E> bc = new BetweennessCentrality<N, E>(filtered);
+            E to_remove = null;
+            double score = 0;
+            for (E e : filtered.edges()) {
+                if (bc.getEdgeScore(e) > score) {
+                    to_remove = e;
+                    score = bc.getEdgeScore(e);
+                }
+            }
+            edgesRemoved.add(to_remove);
+            filtered.removeEdge(to_remove);
+        }
 
-  /**
-   * Retrieves the set of all edges that were removed. The edges returned are stored in order in
-   * which they were removed.
-   *
-   * @return the edges removed from the original graph
-   */
-  public Set<E> getEdgesRemoved() {
-    return edgesRemoved;
-  }
+        WeakComponentClusterer<N, E> wcSearch = new WeakComponentClusterer<N, E>();
+        Set<Set<N>> clusterSet = wcSearch.apply(filtered);
+
+        return clusterSet;
+    }
+
+    /**
+     * Retrieves the set of all edges that were removed. The edges returned are stored in order in
+     * which they were removed.
+     *
+     * @return the edges removed from the original graph
+     */
+    public Set<E> getEdgesRemoved() {
+        return edgesRemoved;
+    }
 }

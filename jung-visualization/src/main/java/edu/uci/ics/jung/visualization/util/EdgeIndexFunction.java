@@ -24,23 +24,25 @@ import com.google.common.graph.Network;
  */
 public interface EdgeIndexFunction<N, E> {
 
-  /**
-   * The index of <code>e</code> is defined as its position in some consistent ordering of <code>e
-   * </code> and all edges parallel to <code>e</code>.
-   *
-   * @param context the network and the edge whose index is to be queried
-   * @return {@code edge}'s index in this instance's <code>Network</code>.
-   */
-  int getIndex(Context<Network<N, E>, E> context);
+    /**
+     * The index of <code>e</code> is defined as its position in some consistent ordering of <code>e
+     * </code> and all edges parallel to <code>e</code>.
+     *
+     * @param context the network and the edge whose index is to be queried
+     * @return {@code edge}'s index in this instance's <code>Network</code>.
+     */
+    int getIndex(Context<Network<N, E>, E> context);
 
-  /**
-   * Resets the indices for <code>edge</code> and its parallel edges. Should be invoked when an edge
-   * parallel to <code>edge</code> has been added or removed.
-   *
-   * @param context the network and the edge whose index is to be reset
-   */
-  void reset(Context<Network<N, E>, E> context);
+    /**
+     * Resets the indices for <code>edge</code> and its parallel edges. Should be invoked when an edge
+     * parallel to <code>edge</code> has been added or removed.
+     *
+     * @param context the network and the edge whose index is to be reset
+     */
+    void reset(Context<Network<N, E>, E> context);
 
-  /** Clears all edge indices for all edges. Does not recalculate the indices. */
-  void reset();
+    /**
+     * Clears all edge indices for all edges. Does not recalculate the indices.
+     */
+    void reset();
 }

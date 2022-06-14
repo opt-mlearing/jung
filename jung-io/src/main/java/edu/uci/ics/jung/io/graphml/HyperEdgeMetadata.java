@@ -21,44 +21,44 @@ import java.util.List;
  */
 public class HyperEdgeMetadata extends AbstractMetadata {
 
-  private String id;
-  private String description;
-  private Object edge;
-  private final List<EndpointMetadata> endpoints = new ArrayList<EndpointMetadata>();
+    private String id;
+    private String description;
+    private Object edge;
+    private final List<EndpointMetadata> endpoints = new ArrayList<EndpointMetadata>();
 
-  public String getId() {
-    return id;
-  }
+    public String getId() {
+        return id;
+    }
 
-  public void setId(String id) {
-    this.id = id;
-  }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-  public String getDescription() {
-    return description;
-  }
+    public String getDescription() {
+        return description;
+    }
 
-  public void setDescription(String description) {
-    this.description = description;
-  }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-  public void addEndpoint(EndpointMetadata endpoint) {
-    endpoints.add(endpoint);
-  }
+    public void addEndpoint(EndpointMetadata endpoint) {
+        endpoints.add(endpoint);
+    }
 
-  public List<EndpointMetadata> getEndpoints() {
-    return endpoints;
-  }
+    public List<EndpointMetadata> getEndpoints() {
+        return endpoints;
+    }
 
-  public Object getEdge() {
-    return edge;
-  }
+    public Object getEdge() {
+        return edge;
+    }
 
-  public void setEdge(Object edge) {
-    this.edge = edge;
-  }
+    public void setEdge(Object edge) {
+        this.edge = edge;
+    }
 
-  public MetadataType getMetadataType() {
-    return MetadataType.HYPEREDGE;
-  }
+    public MetadataType getMetadataType() {
+        return MetadataType.HYPEREDGE;
+    }
 }

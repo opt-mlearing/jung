@@ -9,6 +9,7 @@
 package edu.uci.ics.jung.algorithms.scoring.util;
 
 import com.google.common.graph.Network;
+
 import java.util.function.Function;
 
 /**
@@ -19,18 +20,20 @@ import java.util.function.Function;
  *   <li>for directed edges, returns 1/outdegree(source(e)) (where 'e' is the edge in the VEPair)
  */
 public class UniformDegreeWeight<N, E> implements Function<VEPair<N, E>, Double> {
-  private Network<N, E> graph;
+    private Network<N, E> graph;
 
-  /** @param graph the graph for which an instance is being created */
-  public UniformDegreeWeight(Network<N, E> graph) {
-    this.graph = graph;
-  }
+    /**
+     * @param graph the graph for which an instance is being created
+     */
+    public UniformDegreeWeight(Network<N, E> graph) {
+        this.graph = graph;
+    }
 
-  public Double apply(VEPair<N, E> ve_pair) {
-    E e = ve_pair.getE();
-    N v = ve_pair.getV();
-    return graph.isDirected()
-        ? 1.0 / graph.outDegree(graph.incidentNodes(e).source())
-        : 1.0 / graph.degree(v);
-  }
+    public Double apply(VEPair<N, E> ve_pair) {
+        E e = ve_pair.getE();
+        N v = ve_pair.getV();
+        return graph.isDirected()
+                ? 1.0 / graph.outDegree(graph.incidentNodes(e).source())
+                : 1.0 / graph.degree(v);
+    }
 }

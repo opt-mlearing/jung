@@ -19,13 +19,13 @@ import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
  */
 public interface LensSupport {
 
-  void activate();
+    void activate();
 
-  void deactivate();
+    void deactivate();
 
-  void activate(boolean state);
+    void activate(boolean state);
 
-  LensTransformer getLensTransformer();
+    LensTransformer getLensTransformer();
 
-  ModalGraphMouse getGraphMouse();
+    ModalGraphMouse getGraphMouse();
 }

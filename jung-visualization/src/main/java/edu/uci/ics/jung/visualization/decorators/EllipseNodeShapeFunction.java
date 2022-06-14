@@ -14,16 +14,19 @@ package edu.uci.ics.jung.visualization.decorators;
 import java.awt.Shape;
 import java.util.function.Function;
 
-/** @author Joshua O'Madadhain */
+/**
+ * @author Joshua O'Madadhain
+ */
 public class EllipseNodeShapeFunction<N> extends AbstractNodeShapeFunction<N>
-    implements Function<N, Shape> {
-  public EllipseNodeShapeFunction() {}
+        implements Function<N, Shape> {
+    public EllipseNodeShapeFunction() {
+    }
 
-  public EllipseNodeShapeFunction(Function<N, Integer> vsf, Function<N, Float> varf) {
-    super(vsf, varf);
-  }
+    public EllipseNodeShapeFunction(Function<N, Integer> vsf, Function<N, Float> varf) {
+        super(vsf, varf);
+    }
 
-  public Shape apply(N v) {
-    return factory.getEllipse(v);
-  }
+    public Shape apply(N v) {
+        return factory.getEllipse(v);
+    }
 }

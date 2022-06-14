@@ -12,6 +12,7 @@
 package edu.uci.ics.jung.visualization.util;
 
 import com.google.common.graph.Network;
+
 import java.util.function.Predicate;
 
 /**
@@ -21,27 +22,27 @@ import java.util.function.Predicate;
  * @author Tom Nelson
  */
 public class PredicatedParallelEdgeIndexFunction<N, E> extends ParallelEdgeIndexFunction<N, E> {
-  protected Predicate<E> predicate;
+    protected Predicate<E> predicate;
 
-  public PredicatedParallelEdgeIndexFunction(Predicate<E> predicate) {
-    this.predicate = predicate;
-  }
+    public PredicatedParallelEdgeIndexFunction(Predicate<E> predicate) {
+        this.predicate = predicate;
+    }
 
-  /**
-   * Returns the index for the specified edge, or 0 if {@code edge} is accepted by the Predicate.
-   *
-   * @param context the network and the edge whose index is to be calculated
-   */
-  @Override
-  public int getIndex(Context<Network<N, E>, E> context) {
-    return predicate.test(context.element) ? 0 : super.getIndex(context);
-  }
+    /**
+     * Returns the index for the specified edge, or 0 if {@code edge} is accepted by the Predicate.
+     *
+     * @param context the network and the edge whose index is to be calculated
+     */
+    @Override
+    public int getIndex(Context<Network<N, E>, E> context) {
+        return predicate.test(context.element) ? 0 : super.getIndex(context);
+    }
 
-  public Predicate<E> getPredicate() {
-    return predicate;
-  }
+    public Predicate<E> getPredicate() {
+        return predicate;
+    }
 
-  public void setPredicate(Predicate<E> predicate) {
-    this.predicate = predicate;
-  }
+    public void setPredicate(Predicate<E> predicate) {
+        this.predicate = predicate;
+    }
 }

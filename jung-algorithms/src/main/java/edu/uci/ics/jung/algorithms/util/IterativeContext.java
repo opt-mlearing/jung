@@ -15,9 +15,13 @@ package edu.uci.ics.jung.algorithms.util;
  */
 public interface IterativeContext {
 
-  /** Advances one step. */
-  void step();
+    /**
+     * Advances one step.
+     */
+    void step();
 
-  /** @return {@code true} if this iterative process is finished, and {@code false} otherwise. */
-  boolean done();
+    /**
+     * @return {@code true} if this iterative process is finished, and {@code false} otherwise.
+     */
+    boolean done();
 }

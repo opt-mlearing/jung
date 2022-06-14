@@ -20,21 +20,21 @@ import java.awt.event.MouseEvent;
  */
 public class GraphMouseAdapter extends MouseAdapter {
 
-  protected int modifiers;
+    protected int modifiers;
 
-  public GraphMouseAdapter(int modifiers) {
-    this.modifiers = modifiers;
-  }
+    public GraphMouseAdapter(int modifiers) {
+        this.modifiers = modifiers;
+    }
 
-  public int getModifiers() {
-    return modifiers;
-  }
+    public int getModifiers() {
+        return modifiers;
+    }
 
-  public void setModifiers(int modifiers) {
-    this.modifiers = modifiers;
-  }
+    public void setModifiers(int modifiers) {
+        this.modifiers = modifiers;
+    }
 
-  protected boolean checkModifiers(MouseEvent e) {
-    return e.getModifiers() == modifiers;
-  }
+    protected boolean checkModifiers(MouseEvent e) {
+        return e.getModifiers() == modifiers;
+    }
 }

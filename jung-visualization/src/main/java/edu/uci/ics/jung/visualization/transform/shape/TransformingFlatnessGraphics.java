@@ -12,6 +12,7 @@ package edu.uci.ics.jung.visualization.transform.shape;
 
 import edu.uci.ics.jung.visualization.transform.BidirectionalTransformer;
 import edu.uci.ics.jung.visualization.transform.HyperbolicTransformer;
+
 import java.awt.Graphics2D;
 import java.awt.Shape;
 
@@ -24,33 +25,33 @@ import java.awt.Shape;
  */
 public class TransformingFlatnessGraphics extends TransformingGraphics {
 
-  float flatness = 0;
+    float flatness = 0;
 
-  public TransformingFlatnessGraphics(BidirectionalTransformer transformer) {
-    this(transformer, null);
-  }
-
-  public TransformingFlatnessGraphics(BidirectionalTransformer transformer, Graphics2D delegate) {
-    super(transformer, delegate);
-  }
-
-  public void draw(Shape s, float flatness) {
-    Shape shape = null;
-    if (transformer instanceof ShapeFlatnessTransformer) {
-      shape = ((ShapeFlatnessTransformer) transformer).transform(s, flatness);
-    } else {
-      shape = ((ShapeTransformer) transformer).transform(s);
+    public TransformingFlatnessGraphics(BidirectionalTransformer transformer) {
+        this(transformer, null);
     }
-    delegate.draw(shape);
-  }
 
-  public void fill(Shape s, float flatness) {
-    Shape shape = null;
-    if (transformer instanceof HyperbolicTransformer) {
-      shape = ((HyperbolicShapeTransformer) transformer).transform(s, flatness);
-    } else {
-      shape = ((ShapeTransformer) transformer).transform(s);
+    public TransformingFlatnessGraphics(BidirectionalTransformer transformer, Graphics2D delegate) {
+        super(transformer, delegate);
     }
-    delegate.fill(shape);
-  }
+
+    public void draw(Shape s, float flatness) {
+        Shape shape = null;
+        if (transformer instanceof ShapeFlatnessTransformer) {
+            shape = ((ShapeFlatnessTransformer) transformer).transform(s, flatness);
+        } else {
+            shape = ((ShapeTransformer) transformer).transform(s);
+        }
+        delegate.draw(shape);
+    }
+
+    public void fill(Shape s, float flatness) {
+        Shape shape = null;
+        if (transformer instanceof HyperbolicTransformer) {
+            shape = ((HyperbolicShapeTransformer) transformer).transform(s, flatness);
+        } else {
+            shape = ((ShapeTransformer) transformer).transform(s);
+        }
+        delegate.fill(shape);
+    }
 }

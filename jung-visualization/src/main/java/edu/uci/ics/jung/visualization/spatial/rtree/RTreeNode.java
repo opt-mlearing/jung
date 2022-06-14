@@ -9,13 +9,13 @@ import java.util.Optional;
  */
 public abstract class RTreeNode<T> implements Node<T> {
 
-  protected Optional<Node<T>> parent = Optional.empty();
+    protected Optional<Node<T>> parent = Optional.empty();
 
-  public void setParent(Node<T> node) {
-    parent = Optional.of(node);
-  }
+    public void setParent(Node<T> node) {
+        parent = Optional.of(node);
+    }
 
-  public Optional<Node<T>> getParent() {
-    return parent;
-  }
+    public Optional<Node<T>> getParent() {
+        return parent;
+    }
 }

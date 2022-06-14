@@ -21,128 +21,128 @@ import javax.swing.event.ChangeListener;
  */
 public abstract class MutableTransformerDecorator implements MutableTransformer {
 
-  protected MutableTransformer delegate;
+    protected MutableTransformer delegate;
 
-  public MutableTransformerDecorator(MutableTransformer delegate) {
-    if (delegate == null) {
-      delegate = new MutableAffineTransformer();
+    public MutableTransformerDecorator(MutableTransformer delegate) {
+        if (delegate == null) {
+            delegate = new MutableAffineTransformer();
+        }
+        this.delegate = delegate;
     }
-    this.delegate = delegate;
-  }
 
-  public MutableTransformer getDelegate() {
-    return delegate;
-  }
+    public MutableTransformer getDelegate() {
+        return delegate;
+    }
 
-  public void setDelegate(MutableTransformer delegate) {
-    this.delegate = delegate;
-  }
+    public void setDelegate(MutableTransformer delegate) {
+        this.delegate = delegate;
+    }
 
-  public void addChangeListener(ChangeListener l) {
-    delegate.addChangeListener(l);
-  }
+    public void addChangeListener(ChangeListener l) {
+        delegate.addChangeListener(l);
+    }
 
-  public void concatenate(AffineTransform transform) {
-    delegate.concatenate(transform);
-  }
+    public void concatenate(AffineTransform transform) {
+        delegate.concatenate(transform);
+    }
 
-  public void fireStateChanged() {
-    delegate.fireStateChanged();
-  }
+    public void fireStateChanged() {
+        delegate.fireStateChanged();
+    }
 
-  public ChangeListener[] getChangeListeners() {
-    return delegate.getChangeListeners();
-  }
+    public ChangeListener[] getChangeListeners() {
+        return delegate.getChangeListeners();
+    }
 
-  public double getScale() {
-    return delegate.getScale();
-  }
+    public double getScale() {
+        return delegate.getScale();
+    }
 
-  public double getScaleX() {
-    return delegate.getScaleX();
-  }
+    public double getScaleX() {
+        return delegate.getScaleX();
+    }
 
-  public double getScaleY() {
-    return delegate.getScaleY();
-  }
+    public double getScaleY() {
+        return delegate.getScaleY();
+    }
 
-  public double getShearX() {
-    return delegate.getShearX();
-  }
+    public double getShearX() {
+        return delegate.getShearX();
+    }
 
-  public double getShearY() {
-    return delegate.getShearY();
-  }
+    public double getShearY() {
+        return delegate.getShearY();
+    }
 
-  public AffineTransform getTransform() {
-    return delegate.getTransform();
-  }
+    public AffineTransform getTransform() {
+        return delegate.getTransform();
+    }
 
-  public double getTranslateX() {
-    return delegate.getTranslateX();
-  }
+    public double getTranslateX() {
+        return delegate.getTranslateX();
+    }
 
-  public double getTranslateY() {
-    return delegate.getTranslateY();
-  }
+    public double getTranslateY() {
+        return delegate.getTranslateY();
+    }
 
-  public Point2D inverseTransform(Point2D p) {
-    return delegate.inverseTransform(p);
-  }
+    public Point2D inverseTransform(Point2D p) {
+        return delegate.inverseTransform(p);
+    }
 
-  public Shape inverseTransform(Shape shape) {
-    return delegate.inverseTransform(shape);
-  }
+    public Shape inverseTransform(Shape shape) {
+        return delegate.inverseTransform(shape);
+    }
 
-  public void preConcatenate(AffineTransform transform) {
-    delegate.preConcatenate(transform);
-  }
+    public void preConcatenate(AffineTransform transform) {
+        delegate.preConcatenate(transform);
+    }
 
-  public void removeChangeListener(ChangeListener l) {
-    delegate.removeChangeListener(l);
-  }
+    public void removeChangeListener(ChangeListener l) {
+        delegate.removeChangeListener(l);
+    }
 
-  public void rotate(double radians, Point2D point) {
-    delegate.rotate(radians, point);
-  }
+    public void rotate(double radians, Point2D point) {
+        delegate.rotate(radians, point);
+    }
 
-  public void scale(double sx, double sy, Point2D point) {
-    delegate.scale(sx, sy, point);
-  }
+    public void scale(double sx, double sy, Point2D point) {
+        delegate.scale(sx, sy, point);
+    }
 
-  public void setScale(double sx, double sy, Point2D point) {
-    delegate.setScale(sx, sy, point);
-  }
+    public void setScale(double sx, double sy, Point2D point) {
+        delegate.setScale(sx, sy, point);
+    }
 
-  public void setToIdentity() {
-    delegate.setToIdentity();
-  }
+    public void setToIdentity() {
+        delegate.setToIdentity();
+    }
 
-  public void setTranslate(double dx, double dy) {
-    delegate.setTranslate(dx, dy);
-  }
+    public void setTranslate(double dx, double dy) {
+        delegate.setTranslate(dx, dy);
+    }
 
-  public void shear(double shx, double shy, Point2D from) {
-    delegate.shear(shx, shy, from);
-  }
+    public void shear(double shx, double shy, Point2D from) {
+        delegate.shear(shx, shy, from);
+    }
 
-  public Point2D transform(Point2D p) {
-    return delegate.transform(p);
-  }
+    public Point2D transform(Point2D p) {
+        return delegate.transform(p);
+    }
 
-  public Shape transform(Shape shape) {
-    return delegate.transform(shape);
-  }
+    public Shape transform(Shape shape) {
+        return delegate.transform(shape);
+    }
 
-  public void translate(double dx, double dy) {
-    delegate.translate(dx, dy);
-  }
+    public void translate(double dx, double dy) {
+        delegate.translate(dx, dy);
+    }
 
-  public double getRotation() {
-    return delegate.getRotation();
-  }
+    public double getRotation() {
+        return delegate.getRotation();
+    }
 
-  public void rotate(double radians, double x, double y) {
-    delegate.rotate(radians, x, y);
-  }
+    public void rotate(double radians, double x, double y) {
+        delegate.rotate(radians, x, y);
+    }
 }

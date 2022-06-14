@@ -20,20 +20,24 @@ import java.util.function.Function;
  * the edge weight <code>Transformer</code> only operates on edges.
  */
 public class DelegateToEdgeTransformer<N, E> implements Function<VEPair<N, E>, Number> {
-  /** The Function to which this instance delegates its function. */
-  protected Function<? super E, ? extends Number> delegate;
+    /**
+     * The Function to which this instance delegates its function.
+     */
+    protected Function<? super E, ? extends Number> delegate;
 
-  /**
-   * Creates an instance with the specified delegate Function.
-   *
-   * @param delegate the Function to which this instance will delegate
-   */
-  public DelegateToEdgeTransformer(Function<? super E, ? extends Number> delegate) {
-    this.delegate = delegate;
-  }
+    /**
+     * Creates an instance with the specified delegate Function.
+     *
+     * @param delegate the Function to which this instance will delegate
+     */
+    public DelegateToEdgeTransformer(Function<? super E, ? extends Number> delegate) {
+        this.delegate = delegate;
+    }
 
-  /** @see Function#apply(Object) */
-  public Number apply(VEPair<N, E> arg0) {
-    return delegate.apply(arg0.getE());
-  }
+    /**
+     * @see Function#apply(Object)
+     */
+    public Number apply(VEPair<N, E> arg0) {
+        return delegate.apply(arg0.getE());
+    }
 }

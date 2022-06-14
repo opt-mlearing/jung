@@ -44,223 +44,256 @@ import javax.swing.plaf.basic.BasicIconFactory;
  * @author Tom Nelson
  */
 public abstract class AbstractModalGraphMouse extends PluggableGraphMouse
-    implements ModalGraphMouse, ItemSelectable {
+        implements ModalGraphMouse, ItemSelectable {
 
-  /** used by the scaling plugins for zoom in */
-  protected float in;
-  /** used by the scaling plugins for zoom out */
-  protected float out;
-  /** a listener for mode changes */
-  protected ItemListener modeListener;
-  /** a JComboBox control available to set the mode */
-  protected JComboBox<Mode> modeBox;
-  /** a menu available to set the mode */
-  protected JMenu modeMenu;
-  /** the current mode */
-  protected Mode mode;
-  /** listeners for mode changes */
-  protected EventListenerList listenerList = new EventListenerList();
+    /**
+     * used by the scaling plugins for zoom in
+     */
+    protected float in;
+    /**
+     * used by the scaling plugins for zoom out
+     */
+    protected float out;
+    /**
+     * a listener for mode changes
+     */
+    protected ItemListener modeListener;
+    /**
+     * a JComboBox control available to set the mode
+     */
+    protected JComboBox<Mode> modeBox;
+    /**
+     * a menu available to set the mode
+     */
+    protected JMenu modeMenu;
+    /**
+     * the current mode
+     */
+    protected Mode mode;
+    /**
+     * listeners for mode changes
+     */
+    protected EventListenerList listenerList = new EventListenerList();
 
-  protected GraphMousePlugin pickingPlugin;
-  protected GraphMousePlugin translatingPlugin;
-  protected GraphMousePlugin animatedPickingPlugin;
-  protected GraphMousePlugin scalingPlugin;
-  protected GraphMousePlugin rotatingPlugin;
-  protected GraphMousePlugin shearingPlugin;
-  protected KeyListener modeKeyListener;
+    protected GraphMousePlugin pickingPlugin;
+    protected GraphMousePlugin translatingPlugin;
+    protected GraphMousePlugin animatedPickingPlugin;
+    protected GraphMousePlugin scalingPlugin;
+    protected GraphMousePlugin rotatingPlugin;
+    protected GraphMousePlugin shearingPlugin;
+    protected KeyListener modeKeyListener;
 
-  protected AbstractModalGraphMouse(float in, float out) {
-    this.in = in;
-    this.out = out;
-  }
+    protected AbstractModalGraphMouse(float in, float out) {
+        this.in = in;
+        this.out = out;
+    }
 
-  /** create the plugins, and load the plugins for TRANSFORMING mode */
-  protected abstract void loadPlugins();
+    /**
+     * create the plugins, and load the plugins for TRANSFORMING mode
+     */
+    protected abstract void loadPlugins();
 
-  /** setter for the Mode. */
-  public void setMode(Mode mode) {
-    if (this.mode != mode) {
-      fireItemStateChanged(
-          new ItemEvent(this, ItemEvent.ITEM_STATE_CHANGED, this.mode, ItemEvent.DESELECTED));
-      this.mode = mode;
-      if (mode == Mode.TRANSFORMING) {
-        setTransformingMode();
-      } else if (mode == Mode.PICKING) {
-        setPickingMode();
-      }
-      if (modeBox != null) {
+    /**
+     * setter for the Mode.
+     */
+    public void setMode(Mode mode) {
+        if (this.mode != mode) {
+            fireItemStateChanged(
+                    new ItemEvent(this, ItemEvent.ITEM_STATE_CHANGED, this.mode, ItemEvent.DESELECTED));
+            this.mode = mode;
+            if (mode == Mode.TRANSFORMING) {
+                setTransformingMode();
+            } else if (mode == Mode.PICKING) {
+                setPickingMode();
+            }
+            if (modeBox != null) {
+                modeBox.setSelectedItem(mode);
+            }
+            fireItemStateChanged(
+                    new ItemEvent(this, ItemEvent.ITEM_STATE_CHANGED, mode, ItemEvent.SELECTED));
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see ModalGraphMouse#setPickingMode()
+     */
+    protected void setPickingMode() {
+        remove(translatingPlugin);
+        remove(rotatingPlugin);
+        remove(shearingPlugin);
+        add(pickingPlugin);
+        add(animatedPickingPlugin);
+    }
+
+    /* (non-Javadoc)
+     * @see ModalGraphMouse#setTransformingMode()
+     */
+    protected void setTransformingMode() {
+        remove(pickingPlugin);
+        remove(animatedPickingPlugin);
+        add(translatingPlugin);
+        add(rotatingPlugin);
+        add(shearingPlugin);
+    }
+
+    /**
+     * @param zoomAtMouse The zoomAtMouse to set.
+     */
+    public void setZoomAtMouse(boolean zoomAtMouse) {
+        ((ScalingGraphMousePlugin) scalingPlugin).setZoomAtMouse(zoomAtMouse);
+    }
+
+    /**
+     * listener to set the mode from an external event source
+     */
+    class ModeListener implements ItemListener {
+        public void itemStateChanged(ItemEvent e) {
+            setMode((Mode) e.getItem());
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see ModalGraphMouse#getModeListener()
+     */
+    public ItemListener getModeListener() {
+        if (modeListener == null) {
+            modeListener = new ModeListener();
+        }
+        return modeListener;
+    }
+
+    /**
+     * @return the modeKeyListener
+     */
+    public KeyListener getModeKeyListener() {
+        return modeKeyListener;
+    }
+
+    /**
+     * @param modeKeyListener the modeKeyListener to set
+     */
+    public void setModeKeyListener(KeyListener modeKeyListener) {
+        this.modeKeyListener = modeKeyListener;
+    }
+
+    /**
+     * @return Returns the modeBox.
+     */
+    public JComboBox<Mode> getModeComboBox() {
+        if (modeBox == null) {
+            modeBox = new JComboBox<Mode>(new Mode[]{Mode.TRANSFORMING, Mode.PICKING});
+            modeBox.addItemListener(getModeListener());
+        }
         modeBox.setSelectedItem(mode);
-      }
-      fireItemStateChanged(
-          new ItemEvent(this, ItemEvent.ITEM_STATE_CHANGED, mode, ItemEvent.SELECTED));
+        return modeBox;
     }
-  }
-  /* (non-Javadoc)
-   * @see ModalGraphMouse#setPickingMode()
-   */
-  protected void setPickingMode() {
-    remove(translatingPlugin);
-    remove(rotatingPlugin);
-    remove(shearingPlugin);
-    add(pickingPlugin);
-    add(animatedPickingPlugin);
-  }
 
-  /* (non-Javadoc)
-   * @see ModalGraphMouse#setTransformingMode()
-   */
-  protected void setTransformingMode() {
-    remove(pickingPlugin);
-    remove(animatedPickingPlugin);
-    add(translatingPlugin);
-    add(rotatingPlugin);
-    add(shearingPlugin);
-  }
+    /**
+     * create (if necessary) and return a menu that will change the mode
+     *
+     * @return the menu
+     */
+    public JMenu getModeMenu() {
+        if (modeMenu == null) {
+            modeMenu = new JMenu(); // {
+            Icon icon = BasicIconFactory.getMenuArrowIcon();
+            modeMenu.setIcon(BasicIconFactory.getMenuArrowIcon());
+            modeMenu.setPreferredSize(new Dimension(icon.getIconWidth() + 10, icon.getIconHeight() + 10));
 
-  /** @param zoomAtMouse The zoomAtMouse to set. */
-  public void setZoomAtMouse(boolean zoomAtMouse) {
-    ((ScalingGraphMousePlugin) scalingPlugin).setZoomAtMouse(zoomAtMouse);
-  }
+            final JRadioButtonMenuItem transformingButton =
+                    new JRadioButtonMenuItem(Mode.TRANSFORMING.toString());
+            transformingButton.addItemListener(
+                    new ItemListener() {
+                        public void itemStateChanged(ItemEvent e) {
+                            if (e.getStateChange() == ItemEvent.SELECTED) {
+                                setMode(Mode.TRANSFORMING);
+                            }
+                        }
+                    });
 
-  /** listener to set the mode from an external event source */
-  class ModeListener implements ItemListener {
-    public void itemStateChanged(ItemEvent e) {
-      setMode((Mode) e.getItem());
+            final JRadioButtonMenuItem pickingButton = new JRadioButtonMenuItem(Mode.PICKING.toString());
+            pickingButton.addItemListener(
+                    new ItemListener() {
+                        public void itemStateChanged(ItemEvent e) {
+                            if (e.getStateChange() == ItemEvent.SELECTED) {
+                                setMode(Mode.PICKING);
+                            }
+                        }
+                    });
+            ButtonGroup radio = new ButtonGroup();
+            radio.add(transformingButton);
+            radio.add(pickingButton);
+            transformingButton.setSelected(true);
+            modeMenu.add(transformingButton);
+            modeMenu.add(pickingButton);
+            modeMenu.setToolTipText("Menu for setting Mouse Mode");
+            addItemListener(
+                    new ItemListener() {
+                        public void itemStateChanged(ItemEvent e) {
+                            if (e.getStateChange() == ItemEvent.SELECTED) {
+                                if (e.getItem() == Mode.TRANSFORMING) {
+                                    transformingButton.setSelected(true);
+                                } else if (e.getItem() == Mode.PICKING) {
+                                    pickingButton.setSelected(true);
+                                }
+                            }
+                        }
+                    });
+        }
+        return modeMenu;
     }
-  }
 
-  /* (non-Javadoc)
-   * @see ModalGraphMouse#getModeListener()
-   */
-  public ItemListener getModeListener() {
-    if (modeListener == null) {
-      modeListener = new ModeListener();
+    /**
+     * add a listener for mode changes
+     */
+    public void addItemListener(ItemListener aListener) {
+        listenerList.add(ItemListener.class, aListener);
     }
-    return modeListener;
-  }
 
-  /** @return the modeKeyListener */
-  public KeyListener getModeKeyListener() {
-    return modeKeyListener;
-  }
-
-  /** @param modeKeyListener the modeKeyListener to set */
-  public void setModeKeyListener(KeyListener modeKeyListener) {
-    this.modeKeyListener = modeKeyListener;
-  }
-
-  /** @return Returns the modeBox. */
-  public JComboBox<Mode> getModeComboBox() {
-    if (modeBox == null) {
-      modeBox = new JComboBox<Mode>(new Mode[] {Mode.TRANSFORMING, Mode.PICKING});
-      modeBox.addItemListener(getModeListener());
+    /**
+     * remove a listener for mode changes
+     */
+    public void removeItemListener(ItemListener aListener) {
+        listenerList.remove(ItemListener.class, aListener);
     }
-    modeBox.setSelectedItem(mode);
-    return modeBox;
-  }
 
-  /**
-   * create (if necessary) and return a menu that will change the mode
-   *
-   * @return the menu
-   */
-  public JMenu getModeMenu() {
-    if (modeMenu == null) {
-      modeMenu = new JMenu(); // {
-      Icon icon = BasicIconFactory.getMenuArrowIcon();
-      modeMenu.setIcon(BasicIconFactory.getMenuArrowIcon());
-      modeMenu.setPreferredSize(new Dimension(icon.getIconWidth() + 10, icon.getIconHeight() + 10));
+    /**
+     * Returns an array of all the <code>ItemListener</code>s added to this JComboBox with
+     * addItemListener().
+     *
+     * @return all of the <code>ItemListener</code>s added or an empty array if no listeners have been
+     * added
+     * @since 1.4
+     */
+    public ItemListener[] getItemListeners() {
+        return listenerList.getListeners(ItemListener.class);
+    }
 
-      final JRadioButtonMenuItem transformingButton =
-          new JRadioButtonMenuItem(Mode.TRANSFORMING.toString());
-      transformingButton.addItemListener(
-          new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
-              if (e.getStateChange() == ItemEvent.SELECTED) {
-                setMode(Mode.TRANSFORMING);
-              }
+    public Object[] getSelectedObjects() {
+        if (mode == null) {
+            return new Object[0];
+        } else {
+            Object result[] = new Object[1];
+            result[0] = mode;
+            return result;
+        }
+    }
+
+    /**
+     * Notifies all listeners that have registered interest for notification on this event type.
+     *
+     * @param e the event of interest
+     * @see EventListenerList
+     */
+    protected void fireItemStateChanged(ItemEvent e) {
+        // Guaranteed to return a non-null array
+        Object[] listeners = listenerList.getListenerList();
+        // Process the listeners last to first, notifying
+        // those that are interested in this event
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            if (listeners[i] == ItemListener.class) {
+                ((ItemListener) listeners[i + 1]).itemStateChanged(e);
             }
-          });
-
-      final JRadioButtonMenuItem pickingButton = new JRadioButtonMenuItem(Mode.PICKING.toString());
-      pickingButton.addItemListener(
-          new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
-              if (e.getStateChange() == ItemEvent.SELECTED) {
-                setMode(Mode.PICKING);
-              }
-            }
-          });
-      ButtonGroup radio = new ButtonGroup();
-      radio.add(transformingButton);
-      radio.add(pickingButton);
-      transformingButton.setSelected(true);
-      modeMenu.add(transformingButton);
-      modeMenu.add(pickingButton);
-      modeMenu.setToolTipText("Menu for setting Mouse Mode");
-      addItemListener(
-          new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
-              if (e.getStateChange() == ItemEvent.SELECTED) {
-                if (e.getItem() == Mode.TRANSFORMING) {
-                  transformingButton.setSelected(true);
-                } else if (e.getItem() == Mode.PICKING) {
-                  pickingButton.setSelected(true);
-                }
-              }
-            }
-          });
+        }
     }
-    return modeMenu;
-  }
-
-  /** add a listener for mode changes */
-  public void addItemListener(ItemListener aListener) {
-    listenerList.add(ItemListener.class, aListener);
-  }
-
-  /** remove a listener for mode changes */
-  public void removeItemListener(ItemListener aListener) {
-    listenerList.remove(ItemListener.class, aListener);
-  }
-
-  /**
-   * Returns an array of all the <code>ItemListener</code>s added to this JComboBox with
-   * addItemListener().
-   *
-   * @return all of the <code>ItemListener</code>s added or an empty array if no listeners have been
-   *     added
-   * @since 1.4
-   */
-  public ItemListener[] getItemListeners() {
-    return listenerList.getListeners(ItemListener.class);
-  }
-
-  public Object[] getSelectedObjects() {
-    if (mode == null) {
-      return new Object[0];
-    } else {
-      Object result[] = new Object[1];
-      result[0] = mode;
-      return result;
-    }
-  }
-
-  /**
-   * Notifies all listeners that have registered interest for notification on this event type.
-   *
-   * @param e the event of interest
-   * @see EventListenerList
-   */
-  protected void fireItemStateChanged(ItemEvent e) {
-    // Guaranteed to return a non-null array
-    Object[] listeners = listenerList.getListenerList();
-    // Process the listeners last to first, notifying
-    // those that are interested in this event
-    for (int i = listeners.length - 2; i >= 0; i -= 2) {
-      if (listeners[i] == ItemListener.class) {
-        ((ItemListener) listeners[i + 1]).itemStateChanged(e);
-      }
-    }
-  }
 }

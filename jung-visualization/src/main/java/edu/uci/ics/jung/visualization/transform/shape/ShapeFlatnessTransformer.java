@@ -21,12 +21,12 @@ import java.awt.Shape;
  */
 public interface ShapeFlatnessTransformer extends ShapeTransformer {
 
-  /**
-   * map a shape from graph coordinate system to the screen coordinate system
-   *
-   * @param shape the shape to be transformed
-   * @param flatness used to break the supplied shape into segments
-   * @return a GeneralPath (Shape) representing the screen points of the shape
-   */
-  Shape transform(Shape shape, float flatness);
+    /**
+     * map a shape from graph coordinate system to the screen coordinate system
+     *
+     * @param shape    the shape to be transformed
+     * @param flatness used to break the supplied shape into segments
+     * @return a GeneralPath (Shape) representing the screen points of the shape
+     */
+    Shape transform(Shape shape, float flatness);
 }

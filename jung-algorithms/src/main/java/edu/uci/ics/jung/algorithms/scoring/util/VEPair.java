@@ -22,30 +22,34 @@ import com.google.common.base.Preconditions;
  * @param <E> the edge type
  */
 public class VEPair<N, E> {
-  private N v;
-  private E e;
+    private N v;
+    private E e;
 
-  /**
-   * Creates an instance with the specified node and edge
-   *
-   * @param v the node to add
-   * @param e the edge to add
-   */
-  public VEPair(N v, E e) {
-    Preconditions.checkNotNull(v);
-    Preconditions.checkNotNull(e);
+    /**
+     * Creates an instance with the specified node and edge
+     *
+     * @param v the node to add
+     * @param e the edge to add
+     */
+    public VEPair(N v, E e) {
+        Preconditions.checkNotNull(v);
+        Preconditions.checkNotNull(e);
 
-    this.v = v;
-    this.e = e;
-  }
+        this.v = v;
+        this.e = e;
+    }
 
-  /** @return the node of this pair */
-  public N getV() {
-    return v;
-  }
+    /**
+     * @return the node of this pair
+     */
+    public N getV() {
+        return v;
+    }
 
-  /** @return the edge of this pair */
-  public E getE() {
-    return e;
-  }
+    /**
+     * @return the edge of this pair
+     */
+    public E getE() {
+        return e;
+    }
 }

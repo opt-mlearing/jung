@@ -11,6 +11,7 @@ package edu.uci.ics.jung.algorithms.util;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+
 import java.util.Collection;
 
 /**
@@ -20,34 +21,35 @@ import java.util.Collection;
  */
 public class Indexer {
 
-  /**
-   * Returns a <code>BiMap</code> mapping each element of the collection to its index as encountered
-   * while iterating over the collection. The purpose of the index operation is to supply an O(1)
-   * replacement operation for the O(n) <code>indexOf(element)</code> method of a <code>List</code>
-   *
-   * @param <T> the type of the collection elements
-   * @param collection the collection whose indices are to be generated
-   * @return a bidirectional map from collection elements to 0-based indices
-   */
-  public static <T> BiMap<T, Integer> create(Collection<T> collection) {
-    return create(collection, 0);
-  }
-  /**
-   * Returns a <code>BiMap</code> mapping each element of the collection to its index as encountered
-   * while iterating over the collection. The purpose of the index operation is to supply an O(1)
-   * replacement operation for the O(n) <code>indexOf(element)</code> method of a <code>List</code>
-   *
-   * @param <T> the type of the collection elements
-   * @param collection the collection whose indices are to be generated
-   * @param start start index
-   * @return a bidirectional map from collection elements to start-based indices
-   */
-  public static <T> BiMap<T, Integer> create(Collection<T> collection, int start) {
-    BiMap<T, Integer> map = HashBiMap.<T, Integer>create();
-    int i = start;
-    for (T t : collection) {
-      map.put(t, i++);
+    /**
+     * Returns a <code>BiMap</code> mapping each element of the collection to its index as encountered
+     * while iterating over the collection. The purpose of the index operation is to supply an O(1)
+     * replacement operation for the O(n) <code>indexOf(element)</code> method of a <code>List</code>
+     *
+     * @param <T>        the type of the collection elements
+     * @param collection the collection whose indices are to be generated
+     * @return a bidirectional map from collection elements to 0-based indices
+     */
+    public static <T> BiMap<T, Integer> create(Collection<T> collection) {
+        return create(collection, 0);
     }
-    return map;
-  }
+
+    /**
+     * Returns a <code>BiMap</code> mapping each element of the collection to its index as encountered
+     * while iterating over the collection. The purpose of the index operation is to supply an O(1)
+     * replacement operation for the O(n) <code>indexOf(element)</code> method of a <code>List</code>
+     *
+     * @param <T>        the type of the collection elements
+     * @param collection the collection whose indices are to be generated
+     * @param start      start index
+     * @return a bidirectional map from collection elements to start-based indices
+     */
+    public static <T> BiMap<T, Integer> create(Collection<T> collection, int start) {
+        BiMap<T, Integer> map = HashBiMap.<T, Integer>create();
+        int i = start;
+        for (T t : collection) {
+            map.put(t, i++);
+        }
+        return map;
+    }
 }

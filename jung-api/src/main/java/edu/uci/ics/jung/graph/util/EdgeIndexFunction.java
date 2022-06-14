@@ -22,23 +22,25 @@ package edu.uci.ics.jung.graph.util;
  */
 public interface EdgeIndexFunction<E> {
 
-  /**
-   * The index of <code>e</code> is defined as its position in some consistent ordering of <code>e
-   * </code> and all edges parallel to <code>e</code>.
-   *
-   * @param edge the edge whose index is to be queried
-   * @return {@code edge}'s index in this instance's <code>Network</code>.
-   */
-  int getIndex(E edge);
+    /**
+     * The index of <code>e</code> is defined as its position in some consistent ordering of <code>e
+     * </code> and all edges parallel to <code>e</code>.
+     *
+     * @param edge the edge whose index is to be queried
+     * @return {@code edge}'s index in this instance's <code>Network</code>.
+     */
+    int getIndex(E edge);
 
-  /**
-   * Resets the indices for <code>edge</code> and its parallel edges. Should be invoked when an edge
-   * parallel to <code>edge</code> has been added or removed.
-   *
-   * @param edge the edge whose index is to be reset
-   */
-  void reset(E edge);
+    /**
+     * Resets the indices for <code>edge</code> and its parallel edges. Should be invoked when an edge
+     * parallel to <code>edge</code> has been added or removed.
+     *
+     * @param edge the edge whose index is to be reset
+     */
+    void reset(E edge);
 
-  /** Clears all edge indices for all edges. Does not recalculate the indices. */
-  void reset();
+    /**
+     * Clears all edge indices for all edges. Does not recalculate the indices.
+     */
+    void reset();
 }

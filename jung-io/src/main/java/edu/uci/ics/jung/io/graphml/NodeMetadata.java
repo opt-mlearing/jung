@@ -21,44 +21,44 @@ import java.util.List;
  */
 public class NodeMetadata extends AbstractMetadata {
 
-  private String id;
-  private String description;
-  private Object node;
-  private final List<PortMetadata> ports = new ArrayList<PortMetadata>();
+    private String id;
+    private String description;
+    private Object node;
+    private final List<PortMetadata> ports = new ArrayList<PortMetadata>();
 
-  public String getId() {
-    return id;
-  }
+    public String getId() {
+        return id;
+    }
 
-  public void setId(String id) {
-    this.id = id;
-  }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-  public String getDescription() {
-    return description;
-  }
+    public String getDescription() {
+        return description;
+    }
 
-  public void setDescription(String desc) {
-    this.description = desc;
-  }
+    public void setDescription(String desc) {
+        this.description = desc;
+    }
 
-  public void addPort(PortMetadata port) {
-    ports.add(port);
-  }
+    public void addPort(PortMetadata port) {
+        ports.add(port);
+    }
 
-  public List<PortMetadata> getPorts() {
-    return ports;
-  }
+    public List<PortMetadata> getPorts() {
+        return ports;
+    }
 
-  public Object getNode() {
-    return node;
-  }
+    public Object getNode() {
+        return node;
+    }
 
-  public void setNode(Object node) {
-    this.node = node;
-  }
+    public void setNode(Object node) {
+        this.node = node;
+    }
 
-  public MetadataType getMetadataType() {
-    return MetadataType.NODE;
-  }
+    public MetadataType getMetadataType() {
+        return MetadataType.NODE;
+    }
 }

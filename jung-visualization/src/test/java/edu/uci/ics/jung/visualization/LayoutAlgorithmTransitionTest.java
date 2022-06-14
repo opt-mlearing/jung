@@ -10,14 +10,14 @@ import org.junit.Test;
 
 public class LayoutAlgorithmTransitionTest {
 
-  @Test
-  public void testTransition() throws Exception {
-    MutableGraph<String> graph = GraphBuilder.undirected().build();
-    graph.addNode("A");
-    LayoutModel<String> model =
-        LoadingCacheLayoutModel.<String>builder().setGraph(graph).setSize(100, 100).build();
+    @Test
+    public void testTransition() throws Exception {
+        MutableGraph<String> graph = GraphBuilder.undirected().build();
+        graph.addNode("A");
+        LayoutModel<String> model =
+                LoadingCacheLayoutModel.<String>builder().setGraph(graph).setSize(100, 100).build();
 
-    model.set("A", 0, 0);
-    LayoutAlgorithm newLayoutAlgorithm = new StaticLayoutAlgorithm();
-  }
+        model.set("A", 0, 0);
+        LayoutAlgorithm newLayoutAlgorithm = new StaticLayoutAlgorithm();
+    }
 }

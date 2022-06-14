@@ -10,19 +10,19 @@ import edu.uci.ics.jung.layout.model.Point;
  */
 public class LayoutGraphEvent<N> extends LayoutEvent<N> {
 
-  final Graph<N> graph;
+    final Graph<N> graph;
 
-  public LayoutGraphEvent(N node, Graph<N> graph, Point location) {
-    super(node, location);
-    this.graph = graph;
-  }
+    public LayoutGraphEvent(N node, Graph<N> graph, Point location) {
+        super(node, location);
+        this.graph = graph;
+    }
 
-  public LayoutGraphEvent(LayoutEvent<N> layoutEvent, Graph<N> graph) {
-    super(layoutEvent.getNode(), layoutEvent.location);
-    this.graph = graph;
-  }
+    public LayoutGraphEvent(LayoutEvent<N> layoutEvent, Graph<N> graph) {
+        super(layoutEvent.getNode(), layoutEvent.location);
+        this.graph = graph;
+    }
 
-  public Graph<N> getGraph() {
-    return graph;
-  }
+    public Graph<N> getGraph() {
+        return graph;
+    }
 }

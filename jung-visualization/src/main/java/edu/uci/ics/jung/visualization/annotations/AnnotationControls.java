@@ -35,93 +35,93 @@ import javax.swing.JToolBar;
  */
 public class AnnotationControls<N, E> {
 
-  protected AnnotatingGraphMousePlugin<N, E> annotatingPlugin;
+    protected AnnotatingGraphMousePlugin<N, E> annotatingPlugin;
 
-  public AnnotationControls(AnnotatingGraphMousePlugin<N, E> annotatingPlugin) {
-    this.annotatingPlugin = annotatingPlugin;
-  }
+    public AnnotationControls(AnnotatingGraphMousePlugin<N, E> annotatingPlugin) {
+        this.annotatingPlugin = annotatingPlugin;
+    }
 
-  @SuppressWarnings("serial")
-  public JComboBox<Shape> getShapeBox() {
-    JComboBox<Shape> shapeBox =
-        new JComboBox<>(
-            new Shape[] {
-              new Rectangle2D.Double(),
-              new RoundRectangle2D.Double(0, 0, 0, 0, 50, 50),
-              new Ellipse2D.Double()
-            });
-    shapeBox.setRenderer(
-        new DefaultListCellRenderer() {
-          @Override
-          public Component getListCellRendererComponent(
-              JList<?> list, Object value, int index, boolean isSelected, boolean hasFocus) {
-            String valueString = value.toString();
-            valueString = valueString.substring(0, valueString.indexOf("2D"));
-            valueString = valueString.substring(valueString.lastIndexOf('.') + 1);
-            return super.getListCellRendererComponent(
-                list, valueString, index, isSelected, hasFocus);
-          }
-        });
-    shapeBox.addItemListener(
-        e -> {
-          if (e.getStateChange() == ItemEvent.SELECTED) {
-            annotatingPlugin.setRectangularShape((RectangularShape) e.getItem());
-          }
-        });
-    return shapeBox;
-  }
+    @SuppressWarnings("serial")
+    public JComboBox<Shape> getShapeBox() {
+        JComboBox<Shape> shapeBox =
+                new JComboBox<>(
+                        new Shape[]{
+                                new Rectangle2D.Double(),
+                                new RoundRectangle2D.Double(0, 0, 0, 0, 50, 50),
+                                new Ellipse2D.Double()
+                        });
+        shapeBox.setRenderer(
+                new DefaultListCellRenderer() {
+                    @Override
+                    public Component getListCellRendererComponent(
+                            JList<?> list, Object value, int index, boolean isSelected, boolean hasFocus) {
+                        String valueString = value.toString();
+                        valueString = valueString.substring(0, valueString.indexOf("2D"));
+                        valueString = valueString.substring(valueString.lastIndexOf('.') + 1);
+                        return super.getListCellRendererComponent(
+                                list, valueString, index, isSelected, hasFocus);
+                    }
+                });
+        shapeBox.addItemListener(
+                e -> {
+                    if (e.getStateChange() == ItemEvent.SELECTED) {
+                        annotatingPlugin.setRectangularShape((RectangularShape) e.getItem());
+                    }
+                });
+        return shapeBox;
+    }
 
-  public JButton getColorChooserButton() {
-    final JButton colorChooser = new JButton("Color");
-    colorChooser.setForeground(annotatingPlugin.getAnnotationColor());
-    colorChooser.addActionListener(
-        new ActionListener() {
+    public JButton getColorChooserButton() {
+        final JButton colorChooser = new JButton("Color");
+        colorChooser.setForeground(annotatingPlugin.getAnnotationColor());
+        colorChooser.addActionListener(
+                new ActionListener() {
 
-          public void actionPerformed(ActionEvent e) {
-            Color color =
-                JColorChooser.showDialog(
-                    colorChooser, "Annotation Color", colorChooser.getForeground());
-            annotatingPlugin.setAnnotationColor(color);
-            colorChooser.setForeground(color);
-          }
-        });
-    return colorChooser;
-  }
+                    public void actionPerformed(ActionEvent e) {
+                        Color color =
+                                JColorChooser.showDialog(
+                                        colorChooser, "Annotation Color", colorChooser.getForeground());
+                        annotatingPlugin.setAnnotationColor(color);
+                        colorChooser.setForeground(color);
+                    }
+                });
+        return colorChooser;
+    }
 
-  public JComboBox<Annotation.Layer> getLayerBox() {
-    final JComboBox<Annotation.Layer> layerBox =
-        new JComboBox<>(new Annotation.Layer[] {Annotation.Layer.LOWER, Annotation.Layer.UPPER});
-    layerBox.addItemListener(
-        new ItemListener() {
+    public JComboBox<Annotation.Layer> getLayerBox() {
+        final JComboBox<Annotation.Layer> layerBox =
+                new JComboBox<>(new Annotation.Layer[]{Annotation.Layer.LOWER, Annotation.Layer.UPPER});
+        layerBox.addItemListener(
+                new ItemListener() {
 
-          public void itemStateChanged(ItemEvent e) {
-            if (e.getStateChange() == ItemEvent.SELECTED) {
-              annotatingPlugin.setLayer((Annotation.Layer) e.getItem());
-            }
-          }
-        });
+                    public void itemStateChanged(ItemEvent e) {
+                        if (e.getStateChange() == ItemEvent.SELECTED) {
+                            annotatingPlugin.setLayer((Annotation.Layer) e.getItem());
+                        }
+                    }
+                });
 
-    return layerBox;
-  }
+        return layerBox;
+    }
 
-  public JToggleButton getFillButton() {
-    JToggleButton fillButton = new JToggleButton("Fill");
-    fillButton.addItemListener(
-        new ItemListener() {
+    public JToggleButton getFillButton() {
+        JToggleButton fillButton = new JToggleButton("Fill");
+        fillButton.addItemListener(
+                new ItemListener() {
 
-          public void itemStateChanged(ItemEvent e) {
-            annotatingPlugin.setFill(e.getStateChange() == ItemEvent.SELECTED);
-          }
-        });
-    return fillButton;
-  }
+                    public void itemStateChanged(ItemEvent e) {
+                        annotatingPlugin.setFill(e.getStateChange() == ItemEvent.SELECTED);
+                    }
+                });
+        return fillButton;
+    }
 
-  public JToolBar getAnnotationsToolBar() {
-    JToolBar toolBar = new JToolBar();
-    toolBar.add(this.getShapeBox());
-    toolBar.add(this.getColorChooserButton());
-    toolBar.add(this.getFillButton());
-    toolBar.add(this.getLayerBox());
-    return toolBar;
-  }
+    public JToolBar getAnnotationsToolBar() {
+        JToolBar toolBar = new JToolBar();
+        toolBar.add(this.getShapeBox());
+        toolBar.add(this.getColorChooserButton());
+        toolBar.add(this.getFillButton());
+        toolBar.add(this.getLayerBox());
+        return toolBar;
+    }
 }

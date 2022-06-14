@@ -13,6 +13,7 @@ package edu.uci.ics.jung.visualization.util;
 
 import com.google.common.graph.EndpointPair;
 import com.google.common.graph.Network;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,30 +29,30 @@ import java.util.Map;
  * @author Tom Nelson
  */
 public class ParallelEdgeIndexFunction<N, E> implements EdgeIndexFunction<N, E> {
-  protected Map<E, Integer> edge_index = new HashMap<>();
+    protected Map<E, Integer> edge_index = new HashMap<>();
 
-  public int getIndex(Context<Network<N, E>, E> context) {
-    Network<N, E> network = context.graph;
-    E edge = context.element;
-    Integer index = edge_index.get(edge);
-    if (index == null) {
-      EndpointPair<N> endpoints = network.incidentNodes(edge);
-      N u = endpoints.nodeU();
-      N v = endpoints.nodeV();
-      int count = 0;
-      for (E connectingEdge : network.edgesConnecting(u, v)) {
-        edge_index.put(connectingEdge, count++);
-      }
-      return edge_index.get(edge);
+    public int getIndex(Context<Network<N, E>, E> context) {
+        Network<N, E> network = context.graph;
+        E edge = context.element;
+        Integer index = edge_index.get(edge);
+        if (index == null) {
+            EndpointPair<N> endpoints = network.incidentNodes(edge);
+            N u = endpoints.nodeU();
+            N v = endpoints.nodeV();
+            int count = 0;
+            for (E connectingEdge : network.edgesConnecting(u, v)) {
+                edge_index.put(connectingEdge, count++);
+            }
+            return edge_index.get(edge);
+        }
+        return index;
     }
-    return index;
-  }
 
-  public void reset(Context<Network<N, E>, E> context) {
-    edge_index.remove(context.element);
-  }
+    public void reset(Context<Network<N, E>, E> context) {
+        edge_index.remove(context.element);
+    }
 
-  public void reset() {
-    edge_index.clear();
-  }
+    public void reset() {
+        edge_index.clear();
+    }
 }

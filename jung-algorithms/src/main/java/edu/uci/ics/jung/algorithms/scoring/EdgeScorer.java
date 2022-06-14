@@ -20,11 +20,11 @@ import java.util.Map;
  * @param <S> the score type
  */
 public interface EdgeScorer<E, S> {
-  /**
-   * @param e the edge whose score is requested
-   * @return the algorithm's score for this edge
-   */
-  public S getEdgeScore(E e);
+    /**
+     * @param e the edge whose score is requested
+     * @return the algorithm's score for this edge
+     */
+    public S getEdgeScore(E e);
 
-  public Map<E, S> edgeScores();
+    public Map<E, S> edgeScores();
 }

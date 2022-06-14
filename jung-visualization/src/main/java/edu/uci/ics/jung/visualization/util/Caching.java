@@ -15,6 +15,8 @@ package edu.uci.ics.jung.visualization.util;
  * @author Tom Nelson - tomnelson@dev.java.net
  */
 public interface Caching {
-  /** clear cache */
-  void clear();
+    /**
+     * clear cache
+     */
+    void clear();
 }

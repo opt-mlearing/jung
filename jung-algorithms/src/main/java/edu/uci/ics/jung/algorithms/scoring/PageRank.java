@@ -13,6 +13,7 @@ package edu.uci.ics.jung.algorithms.scoring;
 
 import com.google.common.graph.Network;
 import edu.uci.ics.jung.algorithms.scoring.util.ScoringUtils;
+
 import java.util.function.Function;
 
 /**
@@ -42,25 +43,25 @@ import java.util.function.Function;
  */
 public class PageRank<N, E> extends PageRankWithPriors<N, E> {
 
-  /**
-   * Creates an instance for the specified graph, edge weights, and random jump probability.
-   *
-   * @param graph the input graph
-   * @param edge_weight the edge weights (transition probabilities)
-   * @param alpha the probability of taking a random jump to an arbitrary node
-   */
-  public PageRank(Network<N, E> graph, Function<E, ? extends Number> edge_weight, double alpha) {
-    super(graph, edge_weight, ScoringUtils.getUniformRootPrior(graph.nodes()), alpha);
-  }
+    /**
+     * Creates an instance for the specified graph, edge weights, and random jump probability.
+     *
+     * @param graph       the input graph
+     * @param edge_weight the edge weights (transition probabilities)
+     * @param alpha       the probability of taking a random jump to an arbitrary node
+     */
+    public PageRank(Network<N, E> graph, Function<E, ? extends Number> edge_weight, double alpha) {
+        super(graph, edge_weight, ScoringUtils.getUniformRootPrior(graph.nodes()), alpha);
+    }
 
-  /**
-   * Creates an instance for the specified graph and random jump probability; the probability of
-   * following any outgoing edge from a given node is the same.
-   *
-   * @param graph the input graph
-   * @param alpha the probability of taking a random jump to an arbitrary node
-   */
-  public PageRank(Network<N, E> graph, double alpha) {
-    super(graph, ScoringUtils.getUniformRootPrior(graph.nodes()), alpha);
-  }
+    /**
+     * Creates an instance for the specified graph and random jump probability; the probability of
+     * following any outgoing edge from a given node is the same.
+     *
+     * @param graph the input graph
+     * @param alpha the probability of taking a random jump to an arbitrary node
+     */
+    public PageRank(Network<N, E> graph, double alpha) {
+        super(graph, ScoringUtils.getUniformRootPrior(graph.nodes()), alpha);
+    }
 }

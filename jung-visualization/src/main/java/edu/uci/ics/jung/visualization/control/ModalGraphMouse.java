@@ -11,6 +11,7 @@
 package edu.uci.ics.jung.visualization.control;
 
 import edu.uci.ics.jung.visualization.VisualizationViewer;
+
 import java.awt.event.ItemListener;
 
 /**
@@ -20,16 +21,20 @@ import java.awt.event.ItemListener;
  */
 public interface ModalGraphMouse extends VisualizationViewer.GraphMouse {
 
-  void setMode(Mode mode);
+    void setMode(Mode mode);
 
-  /** @return Returns the modeListener. */
-  ItemListener getModeListener();
+    /**
+     * @return Returns the modeListener.
+     */
+    ItemListener getModeListener();
 
-  /** */
-  enum Mode {
-    TRANSFORMING,
-    PICKING,
-    ANNOTATING,
-    EDITING
-  }
+    /**
+     *
+     */
+    enum Mode {
+        TRANSFORMING,
+        PICKING,
+        ANNOTATING,
+        EDITING
+    }
 }

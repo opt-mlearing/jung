@@ -7,12 +7,12 @@ import java.util.Optional;
 /**
  * interface for classes that hold semantics for R-Tree and R*-Tree
  *
- * @author Tom Nelson
  * @param <T> the type of element stored in the RTree
+ * @author Tom Nelson
  */
 public interface Splitter<T> {
 
-  Pair<InnerNode<T>> split(List<Node<T>> children, Node<T> newEntry);
+    Pair<InnerNode<T>> split(List<Node<T>> children, Node<T> newEntry);
 
-  Optional<Node<T>> chooseSubtree(InnerNode<T> nodeToSplit, T element, Rectangle2D bounds);
+    Optional<Node<T>> chooseSubtree(InnerNode<T> nodeToSplit, T element, Rectangle2D bounds);
 }

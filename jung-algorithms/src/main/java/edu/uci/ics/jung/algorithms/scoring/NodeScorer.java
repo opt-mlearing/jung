@@ -20,11 +20,11 @@ import java.util.Map;
  * @param <S> the score type
  */
 public interface NodeScorer<N, S> {
-  /**
-   * @param v the node whose score is requested
-   * @return the algorithm's score for this node
-   */
-  public S getNodeScore(N v);
+    /**
+     * @param v the node whose score is requested
+     * @return the algorithm's score for this node
+     */
+    public S getNodeScore(N v);
 
-  public Map<N, S> nodeScores();
+    public Map<N, S> nodeScores();
 }

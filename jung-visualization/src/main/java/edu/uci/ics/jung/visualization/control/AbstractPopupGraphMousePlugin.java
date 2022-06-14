@@ -12,36 +12,41 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public abstract class AbstractPopupGraphMousePlugin extends AbstractGraphMousePlugin
-    implements MouseListener {
+        implements MouseListener {
 
-  public AbstractPopupGraphMousePlugin() {
-    this(MouseEvent.BUTTON3_MASK);
-  }
-
-  public AbstractPopupGraphMousePlugin(int modifiers) {
-    super(modifiers);
-  }
-
-  public void mousePressed(MouseEvent e) {
-    if (e.isPopupTrigger()) {
-      handlePopup(e);
-      e.consume();
+    public AbstractPopupGraphMousePlugin() {
+        this(MouseEvent.BUTTON3_MASK);
     }
-  }
 
-  /** if this is the popup trigger, process here, otherwise defer to the superclass */
-  public void mouseReleased(MouseEvent e) {
-    if (e.isPopupTrigger()) {
-      handlePopup(e);
-      e.consume();
+    public AbstractPopupGraphMousePlugin(int modifiers) {
+        super(modifiers);
     }
-  }
 
-  protected abstract void handlePopup(MouseEvent e);
+    public void mousePressed(MouseEvent e) {
+        if (e.isPopupTrigger()) {
+            handlePopup(e);
+            e.consume();
+        }
+    }
 
-  public void mouseClicked(MouseEvent e) {}
+    /**
+     * if this is the popup trigger, process here, otherwise defer to the superclass
+     */
+    public void mouseReleased(MouseEvent e) {
+        if (e.isPopupTrigger()) {
+            handlePopup(e);
+            e.consume();
+        }
+    }
 
-  public void mouseEntered(MouseEvent e) {}
+    protected abstract void handlePopup(MouseEvent e);
 
-  public void mouseExited(MouseEvent e) {}
+    public void mouseClicked(MouseEvent e) {
+    }
+
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    public void mouseExited(MouseEvent e) {
+    }
 }

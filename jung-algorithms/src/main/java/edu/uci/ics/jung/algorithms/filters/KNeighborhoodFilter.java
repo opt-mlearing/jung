@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.graph.Graph;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
+
 import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.Set;
@@ -33,47 +34,47 @@ import java.util.Set;
  */
 public class KNeighborhoodFilter {
 
-  // TODO: create ValueGraph/Network versions
-  public static <N> MutableGraph<N> filterGraph(Graph<N> graph, Set<N> rootNodes, int radius) {
-    checkNotNull(graph);
-    checkNotNull(rootNodes);
-    checkArgument(graph.nodes().containsAll(rootNodes), "graph must contain all of rootNodes");
-    checkArgument(radius > 0, "radius must be > 0");
+    // TODO: create ValueGraph/Network versions
+    public static <N> MutableGraph<N> filterGraph(Graph<N> graph, Set<N> rootNodes, int radius) {
+        checkNotNull(graph);
+        checkNotNull(rootNodes);
+        checkArgument(graph.nodes().containsAll(rootNodes), "graph must contain all of rootNodes");
+        checkArgument(radius > 0, "radius must be > 0");
 
-    MutableGraph<N> filtered = GraphBuilder.from(graph).build();
-    for (N root : rootNodes) {
-      filtered.addNode(root);
-    }
-    Queue<N> currentNodes = new ArrayDeque<>(rootNodes);
-    Queue<N> nextNodes = new ArrayDeque<>();
-
-    for (int depth = 1; depth <= radius && !currentNodes.isEmpty(); depth++) {
-      while (!currentNodes.isEmpty()) {
-        N currentNode = currentNodes.remove();
-        for (N nextNode : graph.successors(currentNode)) {
-          // the addNode needs to happen before putEdge() because we need to know whether
-          // the node was present in the graph
-          // (and putEdge() will always add the node if not present)
-          if (filtered.addNode(nextNode)) {
-            nextNodes.add(nextNode);
-          }
-          filtered.putEdge(currentNode, nextNode);
+        MutableGraph<N> filtered = GraphBuilder.from(graph).build();
+        for (N root : rootNodes) {
+            filtered.addNode(root);
         }
-      }
-      Queue<N> emptyQueue = currentNodes;
-      currentNodes = nextNodes;
-      nextNodes = emptyQueue;
-    }
+        Queue<N> currentNodes = new ArrayDeque<>(rootNodes);
+        Queue<N> nextNodes = new ArrayDeque<>();
 
-    // put in in-edges from nodes in the filtered graph
-    for (N node : filtered.nodes()) {
-      for (N predecessor : graph.predecessors(node)) {
-        if (filtered.nodes().contains(predecessor)) {
-          filtered.putEdge(predecessor, node);
+        for (int depth = 1; depth <= radius && !currentNodes.isEmpty(); depth++) {
+            while (!currentNodes.isEmpty()) {
+                N currentNode = currentNodes.remove();
+                for (N nextNode : graph.successors(currentNode)) {
+                    // the addNode needs to happen before putEdge() because we need to know whether
+                    // the node was present in the graph
+                    // (and putEdge() will always add the node if not present)
+                    if (filtered.addNode(nextNode)) {
+                        nextNodes.add(nextNode);
+                    }
+                    filtered.putEdge(currentNode, nextNode);
+                }
+            }
+            Queue<N> emptyQueue = currentNodes;
+            currentNodes = nextNodes;
+            nextNodes = emptyQueue;
         }
-      }
-    }
 
-    return filtered;
-  }
+        // put in in-edges from nodes in the filtered graph
+        for (N node : filtered.nodes()) {
+            for (N predecessor : graph.predecessors(node)) {
+                if (filtered.nodes().contains(predecessor)) {
+                    filtered.putEdge(predecessor, node);
+                }
+            }
+        }
+
+        return filtered;
+    }
 }

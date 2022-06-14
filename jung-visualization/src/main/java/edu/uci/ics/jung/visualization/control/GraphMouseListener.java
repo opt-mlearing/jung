@@ -21,9 +21,9 @@ import java.awt.event.MouseEvent;
  */
 public interface GraphMouseListener<N> {
 
-  void graphClicked(N v, MouseEvent me);
+    void graphClicked(N v, MouseEvent me);
 
-  void graphPressed(N v, MouseEvent me);
+    void graphPressed(N v, MouseEvent me);
 
-  void graphReleased(N v, MouseEvent me);
+    void graphReleased(N v, MouseEvent me);
 }

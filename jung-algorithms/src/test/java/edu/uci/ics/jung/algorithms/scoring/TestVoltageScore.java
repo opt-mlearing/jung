@@ -12,58 +12,60 @@ import com.google.common.graph.MutableNetwork;
 import com.google.common.graph.NetworkBuilder;
 import junit.framework.TestCase;
 
-/** @author jrtom */
+/**
+ * @author jrtom
+ */
 public class TestVoltageScore extends TestCase {
-  protected MutableNetwork<Number, Number> g;
+    protected MutableNetwork<Number, Number> g;
 
-  // TODO:
-  // * test multiple sources/targets
-  // * test weighted edges
-  // * test exceptional cases
+    // TODO:
+    // * test multiple sources/targets
+    // * test weighted edges
+    // * test exceptional cases
 
-  public final void testDirectedVoltagesSourceTarget() {
-    g = NetworkBuilder.directed().build();
+    public final void testDirectedVoltagesSourceTarget() {
+        g = NetworkBuilder.directed().build();
 
-    int j = 0;
-    g.addEdge(0, 1, j++);
-    g.addEdge(1, 2, j++);
-    g.addEdge(2, 3, j++);
-    g.addEdge(2, 4, j++);
-    g.addEdge(3, 4, j++);
-    g.addEdge(4, 1, j++);
-    g.addEdge(4, 0, j++);
+        int j = 0;
+        g.addEdge(0, 1, j++);
+        g.addEdge(1, 2, j++);
+        g.addEdge(2, 3, j++);
+        g.addEdge(2, 4, j++);
+        g.addEdge(3, 4, j++);
+        g.addEdge(4, 1, j++);
+        g.addEdge(4, 0, j++);
 
-    VoltageScorer<Number, Number> vr = new VoltageScorer<>(g, n -> 1, 0, 3);
-    double[] voltages = {1.0, 2.0 / 3, 2.0 / 3, 0, 1.0 / 3};
+        VoltageScorer<Number, Number> vr = new VoltageScorer<>(g, n -> 1, 0, 3);
+        double[] voltages = {1.0, 2.0 / 3, 2.0 / 3, 0, 1.0 / 3};
 
-    vr.evaluate();
-    checkVoltages(vr, voltages);
-  }
-
-  public final void testUndirectedSourceTarget() {
-    g = NetworkBuilder.undirected().build();
-    int j = 0;
-    g.addEdge(0, 1, j++);
-    g.addEdge(0, 2, j++);
-    g.addEdge(1, 3, j++);
-    g.addEdge(2, 3, j++);
-    g.addEdge(3, 4, j++);
-    g.addEdge(3, 5, j++);
-    g.addEdge(4, 6, j++);
-    g.addEdge(5, 6, j++);
-    VoltageScorer<Number, Number> vr = new VoltageScorer<>(g, n -> 1, 0, 6);
-    double[] voltages = {1.0, 0.75, 0.75, 0.5, 0.25, 0.25, 0};
-
-    vr.evaluate();
-    checkVoltages(vr, voltages);
-  }
-
-  private static final void checkVoltages(VoltageScorer<Number, Number> vr, double[] voltages) {
-    assertEquals(vr.nodeScores().size(), voltages.length);
-    System.out.println("scores: " + vr.nodeScores());
-    System.out.println("voltages: " + voltages.toString());
-    for (int i = 0; i < voltages.length; i++) {
-      assertEquals(vr.getNodeScore(i), voltages[i], 0.01);
+        vr.evaluate();
+        checkVoltages(vr, voltages);
     }
-  }
+
+    public final void testUndirectedSourceTarget() {
+        g = NetworkBuilder.undirected().build();
+        int j = 0;
+        g.addEdge(0, 1, j++);
+        g.addEdge(0, 2, j++);
+        g.addEdge(1, 3, j++);
+        g.addEdge(2, 3, j++);
+        g.addEdge(3, 4, j++);
+        g.addEdge(3, 5, j++);
+        g.addEdge(4, 6, j++);
+        g.addEdge(5, 6, j++);
+        VoltageScorer<Number, Number> vr = new VoltageScorer<>(g, n -> 1, 0, 6);
+        double[] voltages = {1.0, 0.75, 0.75, 0.5, 0.25, 0.25, 0};
+
+        vr.evaluate();
+        checkVoltages(vr, voltages);
+    }
+
+    private static final void checkVoltages(VoltageScorer<Number, Number> vr, double[] voltages) {
+        assertEquals(vr.nodeScores().size(), voltages.length);
+        System.out.println("scores: " + vr.nodeScores());
+        System.out.println("voltages: " + voltages.toString());
+        for (int i = 0; i < voltages.length; i++) {
+            assertEquals(vr.getNodeScore(i), voltages[i], 0.01);
+        }
+    }
 }

@@ -13,6 +13,7 @@ package edu.uci.ics.jung.algorithms.scoring;
 
 import com.google.common.graph.Network;
 import edu.uci.ics.jung.algorithms.scoring.util.ScoringUtils;
+
 import java.util.function.Function;
 
 /**
@@ -31,7 +32,7 @@ import java.util.function.Function;
  *   normalize hub and authority scores so that the sum of the squares of each = 1
  * until scores converge
  * </pre>
- *
+ * <p>
  * HITS is somewhat different from random walk/eigenvector-based algorithms such as PageRank in
  * that:
  *
@@ -44,7 +45,7 @@ import java.util.function.Function;
  *   <li>the scores cannot be interpreted as posterior probabilities (due to the different
  *       normalization)
  * </ul>
- *
+ * <p>
  * This implementation has the classic behavior by default. However, it has been generalized
  * somewhat so that it can act in a more "PageRank-like" fashion:
  *
@@ -69,63 +70,69 @@ import java.util.function.Function;
  */
 public class HITS<N, E> extends HITSWithPriors<N, E> {
 
-  /**
-   * Creates an instance for the specified graph, edge weights, and alpha (random jump probability)
-   * parameter.
-   *
-   * @param g the input graph
-   * @param edge_weights the weights to use for each edge
-   * @param alpha the probability of a hub giving some authority to all nodes, and of an authority
-   *     increasing the score of all hubs (not just those connected via links)
-   */
-  public HITS(Network<N, E> g, Function<E, Double> edge_weights, double alpha) {
-    super(g, edge_weights, ScoringUtils.getHITSUniformRootPrior(g.nodes()), alpha);
-  }
-
-  /**
-   * Creates an instance for the specified graph and alpha (random jump probability) parameter. The
-   * edge weights are all set to 1.
-   *
-   * @param g the input graph
-   * @param alpha the probability of a hub giving some authority to all nodes, and of an authority
-   *     increasing the score of all hubs (not just those connected via links)
-   */
-  public HITS(Network<N, E> g, double alpha) {
-    super(g, ScoringUtils.getHITSUniformRootPrior(g.nodes()), alpha);
-  }
-
-  /**
-   * Creates an instance for the specified graph. The edge weights are all set to 1 and alpha is set
-   * to 0.
-   *
-   * @param g the input graph
-   */
-  public HITS(Network<N, E> g) {
-    this(g, 0.0);
-  }
-
-  /** Maintains hub and authority score information for a node. */
-  public static class Scores {
-    /** The hub score for a node. */
-    public double hub;
-
-    /** The authority score for a node. */
-    public double authority;
+    /**
+     * Creates an instance for the specified graph, edge weights, and alpha (random jump probability)
+     * parameter.
+     *
+     * @param g            the input graph
+     * @param edge_weights the weights to use for each edge
+     * @param alpha        the probability of a hub giving some authority to all nodes, and of an authority
+     *                     increasing the score of all hubs (not just those connected via links)
+     */
+    public HITS(Network<N, E> g, Function<E, Double> edge_weights, double alpha) {
+        super(g, edge_weights, ScoringUtils.getHITSUniformRootPrior(g.nodes()), alpha);
+    }
 
     /**
-     * Creates an instance with the specified hub and authority score.
+     * Creates an instance for the specified graph and alpha (random jump probability) parameter. The
+     * edge weights are all set to 1.
      *
-     * @param hub the hub score
-     * @param authority the authority score
+     * @param g     the input graph
+     * @param alpha the probability of a hub giving some authority to all nodes, and of an authority
+     *              increasing the score of all hubs (not just those connected via links)
      */
-    public Scores(double hub, double authority) {
-      this.hub = hub;
-      this.authority = authority;
+    public HITS(Network<N, E> g, double alpha) {
+        super(g, ScoringUtils.getHITSUniformRootPrior(g.nodes()), alpha);
     }
 
-    @Override
-    public String toString() {
-      return String.format("[h:%.4f,a:%.4f]", this.hub, this.authority);
+    /**
+     * Creates an instance for the specified graph. The edge weights are all set to 1 and alpha is set
+     * to 0.
+     *
+     * @param g the input graph
+     */
+    public HITS(Network<N, E> g) {
+        this(g, 0.0);
     }
-  }
+
+    /**
+     * Maintains hub and authority score information for a node.
+     */
+    public static class Scores {
+        /**
+         * The hub score for a node.
+         */
+        public double hub;
+
+        /**
+         * The authority score for a node.
+         */
+        public double authority;
+
+        /**
+         * Creates an instance with the specified hub and authority score.
+         *
+         * @param hub       the hub score
+         * @param authority the authority score
+         */
+        public Scores(double hub, double authority) {
+            this.hub = hub;
+            this.authority = authority;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("[h:%.4f,a:%.4f]", this.hub, this.authority);
+        }
+    }
 }
